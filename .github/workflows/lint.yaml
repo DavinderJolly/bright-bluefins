@@ -59,7 +59,7 @@ jobs:
       - name: Install pipenv
         run: |
           python -m pip install --upgrade pipenv wheel
-      
+
       - name: Run hooks through our Pipenv environment.
         run: |
           pipenv install --system --dev
