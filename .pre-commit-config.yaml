@@ -34,3 +34,7 @@ repos:
         language: system
         types: [python]
         require_serial: true
+  - repo: https://github.com/psf/black
+    rev: 21.6b0
+    hooks:
+      - id: black
