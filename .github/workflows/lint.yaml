@@ -58,7 +58,6 @@ jobs:
       # Pipenv setup
       - name: Run hooks through our Pipenv environment.
         run: |
-          pip install pipenv
           pipenv install --system --dev
           pipenv run python -m pre-commit run --all-files
         env:
