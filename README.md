@@ -121,9 +121,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/DavinderJolly/repo.svg?style=for-the-badge
-[contributors-url]: https://github.com/DavinderJolly/repo/graphs/contributors
-[issues-shield]: https://img.shields.io/github/issues/DavinderJolly/repo.svg?style=for-the-badge
-[issues-url]: https://github.com/DavinderJolly/repo/issues
-[license-shield]: https://img.shields.io/github/license/DavinderJolly/repo.svg?style=for-the-badge
-[license-url]: https://github.com/DavinderJolly/repo/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/DavinderJolly/bright-bluefins?style=for-the-badge
+[contributors-url]: https://github.com/DavinderJolly/bright-bluefins/graphs/contributors
+[issues-shield]: https://img.shields.io/github/issues/DavinderJolly/bright-bluefins?style=for-the-badge
+[issues-url]: https://github.com/DavinderJolly/bright-bluefins/issues
+[license-shield]: https://img.shields.io/github/license/DavinderJolly/bright-bluefins?style=for-the-badge
+[license-url]: https://github.com/DavinderJolly/bright-bluefins/blob/master/LICENSE.txt
