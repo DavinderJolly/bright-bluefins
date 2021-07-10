@@ -6,8 +6,10 @@ from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.filters import Condition
 from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit.layout.containers import ConditionalContainer, HSplit, VSplit, Window
-from prompt_toolkit.filters import Condition
+from prompt_toolkit.key_binding.key_processor import KeyPressEvent
+from prompt_toolkit.layout.containers import (
+    ConditionalContainer, HSplit, VSplit, Window,
+)
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.lexers import PygmentsLexer
@@ -24,7 +26,16 @@ class ApplicationState:
     ask_for_filename = False
 
 
-def get_text_from_file(filename):
+def get_text_from_file(filename: str) -> str:
+    """
+    Reads text from a file
+
+    Args:
+        filename : Name of the file to read
+
+    Returns:
+        str: text read from the file
+    """
     text = ""
     if filename is not None and os.path.exists(filename):
         with open(filename) as f:
@@ -32,23 +43,25 @@ def get_text_from_file(filename):
     return text
 
 
-
 # Parsing Arguments
 parser = argparse.ArgumentParser()
 parser.add_argument("filename", nargs="?")
 args = vars(parser.parse_args())
-
+text = ""
 filename = args.get("filename", None)
-text = get_text_from_file(filename)
+if filename is not None:
+    text = get_text_from_file(filename)
 lexer = None
 
 if filename is not None:
     try:
         lexer = find_lexer_class_for_filename(filename)
+        if lexer is not None:
+            lexer = PygmentsLexer(lexer)
+
     except ClassNotFound:
         lexer = None
 
-    lexer = PygmentsLexer(lexer)
 else:
     lexer = lexer
 
@@ -62,7 +75,7 @@ text_field = TextArea(
 
 
 # Status bar area
-def get_datetime():
+def get_datetime() -> str:
     """Get opening datetime"""
     return "Opened at " + datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
 
@@ -70,11 +83,11 @@ def get_datetime():
 status_bar_field = VSplit([Window(FormattedTextControl(get_datetime()))], height=1)
 
 
-def _no_filename_save(event):
-    global filename
-    filename = event.text
-    with open(event.text, "wt") as f:
-        f.write(text_field.text)
+def _no_filename_save(event: KeyPressEvent) -> bool:
+    # global filename
+    # filename = event.text
+    # with open(event.text, "wt") as f:
+    #     f.write(text_field.text)
     ApplicationState.show_status_bar = True
     ApplicationState.ask_for_filename = False
     get_app().layout.focus(text_field)
@@ -86,7 +99,7 @@ filename_prompt_field_text = TextArea(
     scrollbar=False,
     line_numbers=False,
     multiline=False,
-    accept_handler=_no_filename_save,
+    # accept_handler=_no_filename_save,
 )
 
 filename_prompt_field = VSplit(
@@ -114,13 +127,13 @@ bindings = KeyBindings()
 
 
 @bindings.add("c-d")
-def _exit(event):
+def _exit(event: KeyPressEvent) -> None:
     """Exit the text editor"""
     event.app.exit()
 
 
 @bindings.add("c-s")
-def _save_file(event) -> None:
+def _save_file(event: KeyPressEvent) -> None:
     if filename is not None:
         with open(filename, "w") as f:
             f.write(text_field.text)
@@ -131,13 +144,14 @@ def _save_file(event) -> None:
 
 
 @bindings.add("c-c")
-def _focus(event):
+def _focus(event: KeyPressEvent) -> None:
     """Focus on the menu"""
     event.app.layout.focus(root_container.window)
 
 
 # Menu items
-def status_bar_handler():
+def status_bar_handler() -> None:
+    """Show the status bar"""
     ApplicationState.show_status_bar = not ApplicationState.show_status_bar
 
 
@@ -163,12 +177,17 @@ layout = Layout(root_container, focused_element=text_field)
 # Global style
 style = Style.from_dict({})  # empty for now
 
-application = Application(
+application: Application = Application(
     layout=layout,
     style=style,
     full_screen=True,
 )
 
 
-def run():
+def run() -> None:
+    """Entry point for the notepad"""
     application.run()
+
+
+if __name__ == "__main__":
+    run()
