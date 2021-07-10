@@ -7,7 +7,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/github_username/repo_name">
+  <a href="https://github.com/DavinderJolly/bright-bluefins">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
   <h1 align="center">Bright Bluefins</h1>
@@ -51,9 +51,6 @@
     <img src="screenshot-url" alt="App screenshot">
 </p> <br />
 
-<!-- **Search and replace with your text editor for the following:**
-`github_username`, `repo_name`, `twitter_handle`, `email`, `project_title`, `project_description` -->
-
 *[project_long_description]*
 
 
@@ -75,7 +72,7 @@ To get a local copy up and running follow these simple steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/DavinderJolly/bright-bluefins.git
    ```
 2. Install requirements
    ```sh
@@ -86,7 +83,7 @@ To get a local copy up and running follow these simple steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/DavinderJolly/bright-bluefins.git
    ```
 2. Install requirements
    ```sh
@@ -124,9 +121,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo/graphs/contributors
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/DavinderJolly/repo.svg?style=for-the-badge
+[contributors-url]: https://github.com/DavinderJolly/repo/graphs/contributors
+[issues-shield]: https://img.shields.io/github/issues/DavinderJolly/repo.svg?style=for-the-badge
+[issues-url]: https://github.com/DavinderJolly/repo/issues
+[license-shield]: https://img.shields.io/github/license/DavinderJolly/repo.svg?style=for-the-badge
+[license-url]: https://github.com/DavinderJolly/repo/blob/master/LICENSE.txt
