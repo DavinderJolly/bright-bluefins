@@ -17,9 +17,6 @@ black = "~=21.6b0"
 pre-commit = "~=2.13"
 mypy = "~=0.910"
 
-[scripts]
-start = "python ./main/main.py"
-
 [requires]
 python_version = "3.9"
 
