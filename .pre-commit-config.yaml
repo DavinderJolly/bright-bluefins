@@ -22,6 +22,7 @@ repos:
     rev: v5.9.2
     hooks:
       - id: isort
+        args: [--trailing-comma]
 
   - repo: https://github.com/pycqa/flake8
     rev: 3.9.2
