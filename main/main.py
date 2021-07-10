@@ -20,45 +20,60 @@ style = Style.from_dict(
 )
 
 
-def parse_commands(command: str) -> None:
-    """
-    Simple function to parse some commands
+class Repl:
+    """REPL class"""
 
-    Args:
-        command: a command input by the user
-        session
-    """
-    if command.lower().startswith("echo"):
-        print(command.replace(command.split()[0] + " ", ""))
+    def __init__(self) -> None:
+        self.current_path: Path = Path.cwd()
 
-    elif command.lower() in ["cls", "clear"]:
-        clear()
+    def change_dir(self, path: str) -> None:
+        """Change the current directory
 
-    elif command.lower() in ["exit", "quit"]:
-        sys.exit()
+        Args:
+            path: directory path to switch to
+        """
+        self.current_path = self.current_path / path
+        self.current_path = Path(self.current_path.resolve())
 
-    else:
-        print(f"command {command.split()[0]} not found")
+    def parse_commands(self, command: str) -> None:
+        """
+        Simple function to parse some commands
 
+        Args:
+            command: a command input by the user
+            session
+        """
+        if command.lower().startswith("echo"):
+            print(command.replace(command.split()[0] + " ", ""))
 
-def main() -> None:
-    """Starts a REPL in the terminal."""
-    session: PromptSession = PromptSession(completer=word_completer, style=style)
+        elif command.lower().startswith("cd "):
+            self.change_dir(command[3:])
 
-    while True:
-        try:
-            current_path = str(Path.cwd())
-            command = session.prompt(current_path + "> ").strip()
+        elif command.lower() in ["cls", "clear"]:
+            clear()
 
-            parse_commands(command)
+        elif command.lower() in ["exit", "quit"]:
+            sys.exit()
 
-        except KeyboardInterrupt:
-            continue
-        except EOFError:
-            break
+        else:
+            print(f"command {command.split()[0]} not found")
 
-    sys.exit()
+    def start_repl(self) -> None:
+        """Starts a REPL session in the terminal"""
+        session: PromptSession = PromptSession(completer=word_completer, style=style)
+
+        while True:
+            try:
+                text = session.prompt(str(self.current_path) + ">")
+            except KeyboardInterrupt:
+                continue
+            except EOFError:
+                break
+
+            self.parse_commands(text)
+
+        print("Exiting...")
 
 
 if __name__ == "__main__":
-    main()
+    Repl().start_repl()
