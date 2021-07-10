@@ -121,9 +121,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/DavinderJolly/bright-bluefins?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/DavinderJolly/bright-bluefins?style=flat
 [contributors-url]: https://github.com/DavinderJolly/bright-bluefins/graphs/contributors
-[issues-shield]: https://img.shields.io/github/issues/DavinderJolly/bright-bluefins?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/DavinderJolly/bright-bluefins?style=flat
 [issues-url]: https://github.com/DavinderJolly/bright-bluefins/issues
-[license-shield]: https://img.shields.io/github/license/DavinderJolly/bright-bluefins?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/DavinderJolly/bright-bluefins?style=flat
 [license-url]: https://github.com/DavinderJolly/bright-bluefins/blob/master/LICENSE.txt
