@@ -33,8 +33,14 @@ repos:
           - flake8-docstrings~=1.5
           - flake8-isort~=4.0
 
+  - repo: https://github.com/psf/black
+    rev: 21.6b0
+    hooks:
+      - id: black
+
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v0.910"
+    rev: 'v0.910'
     hooks:
       - id: mypy
-        args: [--disallow-untyped-defs, --ignore-missing-imports]
+        args: [--disallow-untyped-defs, --ignore-missing-imports
+]
