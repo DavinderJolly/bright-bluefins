@@ -33,8 +33,13 @@ class Repl:
         Args:
             path: directory path to switch to
         """
-        self.current_path = self.current_path / path
-        self.current_path = Path(self.current_path.resolve())
+        dir_path = self.current_path.joinpath(path)
+        if not dir_path.exists():
+            print(f"{path} does not exist")
+        elif not dir_path.is_dir():
+            print(f"{path} is not a directory")
+        else:
+            self.current_path = Path(dir_path.resolve())
 
     def list_dir(self, path: str = "") -> None:
         """Lists all the files and directories in the path
@@ -44,8 +49,10 @@ class Repl:
         Args:
             path: path of the specified directory
         """
-        dir_path = self.current_path
-        dir_path.joinpath(path)
+        if path == "":
+            dir_path = self.current_path
+        else:
+            dir_path = Path(path)
 
         for dir in dir_path.iterdir():
             print(dir)
@@ -114,7 +121,10 @@ class Repl:
             self.change_dir(command_input[0])
 
         elif command == "dir":
-            self.list_dir(command_input[0])
+            try:
+                self.list_dir(command_input[0])
+            except IndexError:
+                self.list_dir()
 
         elif command == "type":
             self.show_file_content(command_input[0])
@@ -147,8 +157,6 @@ class Repl:
                 break
 
             self.call_commands(text)
-
-        print("Exiting...")
 
 
 if __name__ == "__main__":
