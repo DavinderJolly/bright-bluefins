@@ -1,34 +1,24 @@
 import sys
 from pathlib import Path
+from typing import List
 
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
 from prompt_toolkit.styles import Style
 
-word_completer = WordCompleter(
-    ["cd", "dir", "cls", "clear", "echo", "exit", "quit", "rd", "type"],
-    ignore_case=True,
-)
-
-style = Style.from_dict(
-    {
-        "completion-menu.completion": "bg:#008888 #ffffff",
-        "completion-menu.completion.current": "bg:#00aaaa #000000",
-        "scrollbar.background": "bg:#88aaaa",
-        "scrollbar.button": "bg:#222222",
-    }
-)
-
 
 class Repl:
     """REPL class"""
 
-    def __init__(self) -> None:
+    def __init__(self, word_completer: WordCompleter, style: Style) -> None:
         self.current_path: Path = Path.cwd()
+        self.word_completer = word_completer
+        self.style = style
 
     def change_dir(self, path: str) -> None:
-        """Change the current directory
+        """
+        Change the current directory
 
         Args:
             path: directory path to switch to
@@ -42,7 +32,8 @@ class Repl:
             self.current_path = Path(dir_path.resolve())
 
     def list_dir(self, path: str = "") -> None:
-        """Lists all the files and directories in the path
+        """
+        Lists all the files and directories in the path
 
         if None then use the current working dir as path
 
@@ -58,7 +49,8 @@ class Repl:
             print(dir)
 
     def show_file_content(self, path: str) -> None:
-        """Get the file content and show it in the REPL
+        """
+        Get the file content and show it in the REPL
 
         Args:
             path: path of the specified file
@@ -66,21 +58,23 @@ class Repl:
         with open(path, "r") as f:
             print(f.read())
 
-    def delete_file(self, file_paths: list) -> None:
-        """Delete one or multiple files
+    def delete_file(self, file_paths: List[str]) -> None:
+        """
+        Delete one or multiple files
 
         Args:
             file_paths: list of file paths
         """
-        for path in file_paths:
-            path = Path(path)
+        for path_str in file_paths:
+            path = Path(path_str)
             if path.is_file():
                 path.unlink()
             else:
                 print(f"{str(path)} is not a file")
 
-    def remove_dir(self, dir_path: str) -> None:
-        """Delete directory and its files recursively
+    def del_tree(self, dir_path: str) -> None:
+        """
+        Delete directory and its files recursively
 
         Args:
             path: path of directory
@@ -90,8 +84,38 @@ class Repl:
             if child.is_file():
                 child.unlink()
             else:
-                self.remove_dir(str(child))
+                self.del_tree(str(child))
         path.rmdir()
+
+    def remove_dir(self, dir: str) -> None:
+        """
+        Removes an empty directory
+
+        Args:
+            dir: name of the directory to remove
+        """
+        path = Path(dir)
+        if path.is_dir():
+            if len(list(path.glob("*"))) == 0:
+                path.rmdir()
+            else:
+                print("directory is not empty")
+        else:
+            print(f"{path} is not a directory")
+
+    def rename(self, name: str, new_name: str) -> None:
+        """
+        Rename a file
+
+        Args:
+            dirname : a file to be renamed
+            newname : the new name
+        """
+        path = Path("name")
+        if path.is_file():
+            path.rename(new_name)
+        else:
+            print(f"{path} is not a file")
 
     def call_commands(self, input_text: str) -> None:
         """
@@ -101,17 +125,15 @@ class Repl:
             input_text: input from the user
         """
         # Parse the input
-        args_list = input_text.lower().split()
-        try:
-            command = args_list[0]
-        except IndexError:
+        args_list = input_text.strip().split()
+        command_input = []
+        if len(args_list) > 0:
+            command = args_list[0].lower()
+            if len(args_list) > 1:
+                command_input = args_list[1:]
+        else:
             print()
             return
-
-        if len(args_list) == 1:
-            command_input = []
-        else:
-            command_input = args_list[1:]
 
         # Call the commands
         if command == "echo":
@@ -132,8 +154,17 @@ class Repl:
         elif command == "del":
             self.delete_file(command_input)
 
-        elif command == "rd":
+        elif command == "deltree":
+            self.del_tree(command_input[0])
+
+        elif command in ["rd", "rmdir"]:
             self.remove_dir(command_input[0])
+
+        elif command == "ren":
+            if len(command_input) >= 2:
+                self.rename(command_input[0], command_input[1])
+            else:
+                print("File name and new name required")
 
         elif command in ["cls", "clear"]:
             clear()
@@ -146,12 +177,15 @@ class Repl:
 
     def start_repl(self) -> None:
         """Starts a REPL session in the terminal"""
-        session: PromptSession = PromptSession(completer=word_completer, style=style)
+        session: PromptSession = PromptSession(
+            completer=self.word_completer, style=self.style
+        )
 
         while True:
             try:
                 text = session.prompt(str(self.current_path) + ">")
             except KeyboardInterrupt:
+                print("^C")
                 continue
             except EOFError:
                 break
@@ -160,4 +194,29 @@ class Repl:
 
 
 if __name__ == "__main__":
-    Repl().start_repl()
+    word_completer = WordCompleter(
+        [
+            "CD",
+            "DIR",
+            "CLS",
+            "CLEAR",
+            "ECHO",
+            "EXIT",
+            "QUIT",
+            "RD",
+            "RMDIR",
+            "REN",
+            "DELTREE",
+            "TYPE",
+        ],
+        ignore_case=True,
+    )
+    style = Style.from_dict(
+        {
+            "completion-menu.completion": "bg:#008888 #ffffff",
+            "completion-menu.completion.current": "bg:#00aaaa #000000",
+            "scrollbar.background": "bg:#88aaaa",
+            "scrollbar.button": "bg:#222222",
+        }
+    )
+    Repl(word_completer, style).start_repl()
