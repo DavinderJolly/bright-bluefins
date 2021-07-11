@@ -7,7 +7,8 @@ from prompt_toolkit.shortcuts import clear
 from prompt_toolkit.styles import Style
 
 word_completer = WordCompleter(
-    ["cls", "clear", "exit", "quit", "echo"], ignore_case=True
+    ["cd", "dir", "cls", "clear", "echo", "exit", "quit", "rd", "type"],
+    ignore_case=True,
 )
 
 style = Style.from_dict(
@@ -35,28 +36,103 @@ class Repl:
         self.current_path = self.current_path / path
         self.current_path = Path(self.current_path.resolve())
 
-    def parse_commands(self, command: str) -> None:
-        """
-        Simple function to parse some commands
+    def list_dir(self, path: str = "") -> None:
+        """Lists all the files and directories in the path
+
+        if None then use the current working dir as path
 
         Args:
-            command: a command input by the user
-            session
+            path: path of the specified directory
         """
-        if command.lower().startswith("echo"):
-            print(command.replace(command.split()[0] + " ", ""))
+        dir_path = self.current_path
+        dir_path.joinpath(path)
 
-        elif command.lower().startswith("cd "):
-            self.change_dir(command[3:])
+        for dir in dir_path.iterdir():
+            print(dir)
 
-        elif command.lower() in ["cls", "clear"]:
+    def show_file_content(self, path: str) -> None:
+        """Get the file content and show it in the REPL
+
+        Args:
+            path: path of the specified file
+        """
+        with open(path, "r") as f:
+            print(f.read())
+
+    def delete_file(self, file_paths: list) -> None:
+        """Delete one or multiple files
+
+        Args:
+            file_paths: list of file paths
+        """
+        for path in file_paths:
+            path = Path(path)
+            if path.is_file():
+                path.unlink()
+            else:
+                print(f"{str(path)} is not a file")
+
+    def remove_dir(self, dir_path: str) -> None:
+        """Delete directory and its files recursively
+
+        Args:
+            path: path of directory
+        """
+        path = Path(dir_path)
+        for child in path.glob("*"):
+            if child.is_file():
+                child.unlink()
+            else:
+                self.remove_dir(str(child))
+        path.rmdir()
+
+    def call_commands(self, input_text: str) -> None:
+        """
+        Simple function to call some commands after parsing args
+
+        Args:
+            input_text: input from the user
+        """
+        # Parse the input
+        args_list = input_text.lower().split()
+        try:
+            command = args_list[0]
+        except IndexError:
+            print()
+            return
+
+        if len(args_list) == 1:
+            command_input = []
+        else:
+            command_input = args_list[1:]
+
+        # Call the commands
+        if command == "echo":
+            print(" ".join(command_input))
+
+        elif command == "cd":
+            self.change_dir(command_input[0])
+
+        elif command == "dir":
+            self.list_dir(command_input[0])
+
+        elif command == "type":
+            self.show_file_content(command_input[0])
+
+        elif command == "del":
+            self.delete_file(command_input)
+
+        elif command == "rd":
+            self.remove_dir(command_input[0])
+
+        elif command in ["cls", "clear"]:
             clear()
 
-        elif command.lower() in ["exit", "quit"]:
+        elif command in ["exit", "quit"]:
             sys.exit()
 
         else:
-            print(f"command {command.split()[0]} not found")
+            print(f"Command {command} not found")
 
     def start_repl(self) -> None:
         """Starts a REPL session in the terminal"""
@@ -70,7 +146,7 @@ class Repl:
             except EOFError:
                 break
 
-            self.parse_commands(text)
+            self.call_commands(text)
 
         print("Exiting...")
 
