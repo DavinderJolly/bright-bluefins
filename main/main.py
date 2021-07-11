@@ -11,10 +11,34 @@ from prompt_toolkit.styles import Style
 class Repl:
     """REPL class"""
 
-    def __init__(self, word_completer: WordCompleter, style: Style) -> None:
+    def __init__(self, style: Style, word_list: List[str] = []) -> None:
+        """
+        Constructor for class Repl
+
+        Args:
+            style (prompt_toolkit.styles.Style): styles for the REPL
+            word_list: list of extra words to add to the word_completer. Defaults to [].
+        """
         self.current_path: Path = Path.cwd()
-        self.word_completer = word_completer
         self.style = style
+        self.word_completer = WordCompleter(
+            [
+                "CD",
+                "DIR",
+                "CLS",
+                "CLEAR",
+                "ECHO",
+                "EXIT",
+                "QUIT",
+                "RD",
+                "RMDIR",
+                "REN",
+                "DELTREE",
+                "TYPE",
+            ]
+            + word_list,
+            ignore_case=True,
+        )
 
     def change_dir(self, path: str) -> None:
         """
@@ -194,23 +218,6 @@ class Repl:
 
 
 if __name__ == "__main__":
-    word_completer = WordCompleter(
-        [
-            "CD",
-            "DIR",
-            "CLS",
-            "CLEAR",
-            "ECHO",
-            "EXIT",
-            "QUIT",
-            "RD",
-            "RMDIR",
-            "REN",
-            "DELTREE",
-            "TYPE",
-        ],
-        ignore_case=True,
-    )
     style = Style.from_dict(
         {
             "completion-menu.completion": "bg:#008888 #ffffff",
@@ -219,4 +226,4 @@ if __name__ == "__main__":
             "scrollbar.button": "bg:#222222",
         }
     )
-    Repl(word_completer, style).start_repl()
+    Repl(style).start_repl()
