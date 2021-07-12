@@ -28,7 +28,7 @@ from pygments.util import ClassNotFound
 class NotepadApp:
     """Creating the Notepad App"""
 
-    def __init__(self, style: Optional[Style] = {}) -> None:
+    def __init__(self, style: Optional[Style] = None) -> None:
         """Initialize the class
 
         Args:
@@ -49,14 +49,14 @@ class NotepadApp:
         self.application = self.make_application()
 
     @staticmethod
-    def parse_args() -> str:
+    def parse_args() -> Optional[str]:
         """Parses the arguments given when running the file
 
         Returns:
             str: returns filename
         """
         parser = argparse.ArgumentParser()
-        parser.add_argument("file_name", nargs="?")
+        parser.add_argument("file_name", type=str, nargs="?")
         args = vars(parser.parse_args())
         file_name = args.get("file_name", None)
         return file_name
@@ -88,7 +88,7 @@ class NotepadApp:
             self.ask_for_filename = True
             get_app().layout.focus(self.filename_prompt_field)
 
-    def add_lexer(self, file_name: str) -> Optional[PygmentsLexer]:
+    def add_lexer(self, file_name: Optional[str]) -> Optional[PygmentsLexer]:
         """Returns the lexer based on the file name
 
         Args:
@@ -97,11 +97,12 @@ class NotepadApp:
         Returns:
             Optional[PygmentsLexer]: Returns PygmentsLexer class
         """
+        lexer_name = None
         if file_name is not None:
             try:
-                self.lexer = find_lexer_class_for_filename(file_name)
-                if self.lexer is not None:
-                    self.lexer = PygmentsLexer(self.lexer)
+                lexer_name = find_lexer_class_for_filename(file_name)
+                if lexer_name is not None:
+                    self.lexer = PygmentsLexer(lexer_name)
 
             except ClassNotFound:
                 self.lexer = None
@@ -130,7 +131,8 @@ class NotepadApp:
             """Saves the file
 
             Args:
-                event (Optional[KeyPressEvent], optional): Takes an Optional KeyPress event. Defaults to None.
+                event (Optional[KeyPressEvent], optional): Takes an Optional KeyPress
+                    event. Defaults to None.
             """
             self.save_file()
 
@@ -166,17 +168,20 @@ class NotepadApp:
             TextArea: Returns TextArea class
         """
 
-        def _no_name_handler(buffer: Buffer) -> None:
+        def _no_name_handler(buffer: Buffer) -> bool:
             """Handles when no filename is given
 
             Args:
                 buffer (Buffer): Takes the buffer class
+            Returns:
+                bool: True if text should be kept after accepting else False
             """
             self.file_name = buffer.text.strip()
             self.save_file()
             get_app().layout.focus(self.text_field)
             self.show_status_bar = True
             self.ask_for_filename = False
+            return False
 
         return TextArea(
             height=1,
@@ -291,3 +296,7 @@ class NotepadApp:
     def run(self) -> None:
         """Runs the app"""
         self.application.run()
+
+
+if __name__ == "__main__":
+    NotepadApp().run()
