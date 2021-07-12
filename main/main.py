@@ -35,9 +35,9 @@ class Repl:
     def exec_command(
         self,
         command: Callable,
-        args: Sequence[Union[str, List[str]]] = (),
+        args: Sequence[Union[str, List[str], Path]] = (),
         fallback_command: Callable = print_function,
-        fallback_arg: str = "",
+        fallback_arg: Union[str, Path] = "",
     ) -> None:
         """
         Execute the command with right input or fallback
@@ -95,6 +95,20 @@ class Repl:
                 self.exec_command(
                     command=self.commands.list_dir,
                     fallback_command=self.commands.list_dir,
+                )
+
+        elif command == "tree":
+            if command_input:
+                self.exec_command(
+                    command=self.commands.tree,
+                    args=(Path(command_input[0]),),
+                    fallback_command=self.commands.tree,
+                    fallback_arg=self.current_path,
+                )
+            else:
+                self.exec_command(
+                    command=self.commands.tree,
+                    args=(self.current_path,),
                 )
 
         elif command == "type":
