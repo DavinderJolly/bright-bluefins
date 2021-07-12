@@ -56,6 +56,36 @@ class Commands:
         for dir in dir_path.iterdir():
             print(dir)
 
+    def tree(self, path: Path, level: int = 0, infix: str = "├──") -> None:
+        """
+        Makes a tree view of all files and directories
+
+        Args:
+            path: path of the specified directory
+        """
+        if path.is_dir():
+            if level == 0:
+                print("{}{}{}".format("", "└──", str(path.name)))
+            else:
+                print(
+                    "{}{}{}".format(
+                        "    " + (level - 1) * "│   ", "├──", str(path.name)
+                    )
+                )
+            childs = [child for child in path.glob("*")]
+            if childs == []:
+                level -= 1
+                return
+            last_child = childs.pop()
+            for child in childs:
+                level += 1
+                self.tree(child, level)
+                level -= 1
+            self.tree(last_child, level + 1, infix="└──")
+        else:
+            print("{}{}{}".format("    " + (level - 1) * "│   ", infix, str(path.name)))
+        level -= 1
+
     def show_file_content(self, path: str) -> None:
         """
         Get the file content and show it in the REPL
@@ -135,4 +165,4 @@ class Commands:
         if format is not None:
             print(datetime.datetime.now().strftime(format))
         else:
-            print(datetime.datetime.now())
+            print(datetime.datetime.now().strftime("%d-%m-%Y"))
