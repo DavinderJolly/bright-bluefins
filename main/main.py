@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-from typing import List
+from typing import Any, Callable, List
 
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
@@ -141,6 +141,36 @@ class Repl:
         else:
             print(f"{path} is not a file")
 
+    def print_function(self, msg: str = "") -> None:
+        """Print text without newline character"""
+        print(msg, end="")
+
+    def exec_command(
+        self,
+        command: Callable,
+        args: Any,
+        idx: int = 0,
+        fallback_command: Callable = print_function,
+        fallback_arg: str = "",
+    ) -> None:
+        """
+        Execute the command with right input or fallback
+
+        Args:
+            command: command method name
+            args: arguments of the command
+            idx: index of argument, if idx == -1 it is not used
+            fallback_command: alternate command
+            fallback_arg: argument of the fallback command
+        """
+        try:
+            if idx == -1:
+                command(args)
+            else:
+                command(args[idx])
+        except IndexError:
+            fallback_command(fallback_arg)
+
     def call_commands(self, input_text: str) -> None:
         """
         Simple function to call some commands after parsing args
@@ -164,31 +194,32 @@ class Repl:
             print(" ".join(command_input))
 
         elif command == "cd":
-            self.change_dir(command_input[0])
+            self.exec_command(command=self.change_dir, args=command_input)
 
         elif command == "dir":
-            try:
-                self.list_dir(command_input[0])
-            except IndexError:
-                self.list_dir()
+            self.exec_command(
+                command=self.list_dir,
+                args=command_input,
+                fallback_command=self.list_dir,
+            )
 
         elif command == "type":
-            self.show_file_content(command_input[0])
+            self.exec_command(command=self.show_file_content, args=command_input)
 
         elif command == "del":
-            self.delete_file(command_input)
+            self.exec_command(command=self.delete_file, args=command_input, idx=-1)
 
         elif command == "deltree":
-            self.del_tree(command_input[0])
+            self.exec_command(command=self.del_tree, args=command_input)
 
         elif command in ["rd", "rmdir"]:
-            self.remove_dir(command_input[0])
+            self.exec_command(command=self.remove_dir, args=command_input)
 
         elif command == "ren":
             if len(command_input) >= 2:
                 self.rename(command_input[0], command_input[1])
             else:
-                print("File name and new name required")
+                print("Usage: ren old_name new_name")
 
         elif command in ["cls", "clear"]:
             clear()
