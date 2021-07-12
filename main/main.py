@@ -1,7 +1,8 @@
 import sys
 from pathlib import Path
-from typing import Any, Callable, List
+from typing import Callable, List, Sequence, Union
 
+from commands import Commands
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
@@ -21,125 +22,11 @@ class Repl:
         """
         self.current_path: Path = Path.cwd()
         self.style = style
+        self.commands = Commands(self.current_path)
         self.word_completer = WordCompleter(
-            [
-                "CD",
-                "DIR",
-                "CLS",
-                "CLEAR",
-                "ECHO",
-                "EXIT",
-                "QUIT",
-                "RD",
-                "RMDIR",
-                "REN",
-                "DELTREE",
-                "TYPE",
-            ]
-            + word_list,
+            self.commands.alias + word_list,
             ignore_case=True,
         )
-
-    def change_dir(self, path: str) -> None:
-        """
-        Change the current directory
-
-        Args:
-            path: directory path to switch to
-        """
-        dir_path = self.current_path.joinpath(path)
-        if not dir_path.exists():
-            print(f"{path} does not exist")
-        elif not dir_path.is_dir():
-            print(f"{path} is not a directory")
-        else:
-            self.current_path = Path(dir_path.resolve())
-
-    def list_dir(self, path: str = "") -> None:
-        """
-        Lists all the files and directories in the path
-
-        if None then use the current working dir as path
-
-        Args:
-            path: path of the specified directory
-        """
-        if path == "":
-            dir_path = self.current_path
-        else:
-            dir_path = Path(path)
-
-        for dir in dir_path.iterdir():
-            print(dir)
-
-    def show_file_content(self, path: str) -> None:
-        """
-        Get the file content and show it in the REPL
-
-        Args:
-            path: path of the specified file
-        """
-        with open(path, "r") as f:
-            print(f.read())
-
-    def delete_file(self, file_paths: List[str]) -> None:
-        """
-        Delete one or multiple files
-
-        Args:
-            file_paths: list of file paths
-        """
-        for path_str in file_paths:
-            path = Path(path_str)
-            if path.is_file():
-                path.unlink()
-            else:
-                print(f"{str(path)} is not a file")
-
-    def del_tree(self, dir_path: str) -> None:
-        """
-        Delete directory and its files recursively
-
-        Args:
-            path: path of directory
-        """
-        path = Path(dir_path)
-        for child in path.glob("*"):
-            if child.is_file():
-                child.unlink()
-            else:
-                self.del_tree(str(child))
-        path.rmdir()
-
-    def remove_dir(self, dir: str) -> None:
-        """
-        Removes an empty directory
-
-        Args:
-            dir: name of the directory to remove
-        """
-        path = Path(dir)
-        if path.is_dir():
-            if len(list(path.glob("*"))) == 0:
-                path.rmdir()
-            else:
-                print("directory is not empty")
-        else:
-            print(f"{path} is not a directory")
-
-    def rename(self, name: str, new_name: str) -> None:
-        """
-        Rename a file
-
-        Args:
-            dirname : a file to be renamed
-            newname : the new name
-        """
-        path = Path("name")
-        if path.is_file():
-            path.rename(new_name)
-        else:
-            print(f"{path} is not a file")
 
     def print_function(self, msg: str = "") -> None:
         """Print text without newline character"""
@@ -148,8 +35,7 @@ class Repl:
     def exec_command(
         self,
         command: Callable,
-        args: Any,
-        idx: int = 0,
+        args: Sequence[Union[str, List[str]]] = (),
         fallback_command: Callable = print_function,
         fallback_arg: str = "",
     ) -> None:
@@ -164,10 +50,7 @@ class Repl:
             fallback_arg: argument of the fallback command
         """
         try:
-            if idx == -1:
-                command(args)
-            else:
-                command(args[idx])
+            command(*args)
         except IndexError:
             fallback_command(fallback_arg)
 
@@ -194,32 +77,74 @@ class Repl:
             print(" ".join(command_input))
 
         elif command == "cd":
-            self.exec_command(command=self.change_dir, args=command_input)
+            if command_input:
+                self.exec_command(
+                    command=self.commands.change_dir, args=(command_input[0],)
+                )
+            else:
+                print("Usage: CD path")
 
         elif command == "dir":
-            self.exec_command(
-                command=self.list_dir,
-                args=command_input,
-                fallback_command=self.list_dir,
-            )
+            if command_input:
+                self.exec_command(
+                    command=self.commands.list_dir,
+                    args=(command_input[0],),
+                    fallback_command=self.commands.list_dir,
+                )
+            else:
+                self.exec_command(
+                    command=self.commands.list_dir,
+                    fallback_command=self.commands.list_dir,
+                )
 
         elif command == "type":
-            self.exec_command(command=self.show_file_content, args=command_input)
+            if command_input:
+                self.exec_command(
+                    command=self.commands.show_file_content, args=(command_input[0],)
+                )
+            else:
+                print("Usage: TYPE file_name")
 
         elif command == "del":
-            self.exec_command(command=self.delete_file, args=command_input, idx=-1)
+            self.exec_command(command=self.commands.delete_file, args=(command_input,))
 
         elif command == "deltree":
-            self.exec_command(command=self.del_tree, args=command_input)
+            if command_input:
+                self.exec_command(command=self.commands.del_tree, args=(command_input,))
+            else:
+                print("Usage: DELTREE dir_name")
 
         elif command in ["rd", "rmdir"]:
-            self.exec_command(command=self.remove_dir, args=command_input)
+            if command_input:
+                self.exec_command(
+                    command=self.commands.remove_dir, args=(command_input,)
+                )
+            else:
+                print("Usage: RD dir_name")
 
         elif command == "ren":
             if len(command_input) >= 2:
-                self.rename(command_input[0], command_input[1])
+                self.exec_command(
+                    command=self.commands.rename,
+                    args=(command_input[0], command_input[1]),
+                )
+
             else:
-                print("Usage: ren old_name new_name")
+                print("Usage: REN old_name new_name")
+
+        elif command == "date":
+            if command_input:
+                self.exec_command(
+                    command=self.commands.get_date,
+                    args=(command_input[0],),
+                    fallback_command=self.commands.get_date,
+                )
+            else:
+                self.exec_command(
+                    command=self.commands.get_date,
+                    args=(),
+                    fallback_command=self.commands.get_date,
+                )
 
         elif command in ["cls", "clear"]:
             clear()
