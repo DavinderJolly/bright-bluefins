@@ -27,7 +27,7 @@ class Commands:
             "MOVE",
         ]
 
-    def change_dir(self, path: str) -> None:
+    def change_dir(self, path: str) -> Path:
         """
         Change the current directory
 
@@ -41,6 +41,7 @@ class Commands:
             print(f"{path} is not a directory")
         else:
             self.current_path = Path(dir_path.resolve())
+        return self.current_path
 
     def list_dir(self, path: str = "") -> None:
         """
@@ -57,7 +58,7 @@ class Commands:
             dir_path = Path(path)
 
         for dir in dir_path.iterdir():
-            print(dir)
+            print(dir.name)
 
     def tree(self, path: Path, level: int = 0, infix: str = "├──") -> None:
         """
