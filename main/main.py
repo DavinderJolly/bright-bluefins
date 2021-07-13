@@ -1,3 +1,4 @@
+import re
 import sys
 from pathlib import Path
 from typing import List
@@ -28,6 +29,22 @@ class Repl:
             ignore_case=True,
         )
 
+    def parse_args(self, input_text: str) -> List[str]:
+        """
+        Takes a string with arguments and splits them intu a list of strings
+
+        Args:
+            input_text: arguments in a single string
+
+        Returns:
+            List[str]: arguments as a list of strings
+        """
+        args = [
+            word.replace('"', "") if '"' in word else word
+            for word in re.split(r"\s+(?![\w\_\-\.]+\")", input_text)
+        ]
+        return args
+
     def call_commands(self, input_text: str) -> None:
         """
         Simple function to call some commands after parsing args
@@ -35,8 +52,7 @@ class Repl:
         Args:
             input_text: input from the user
         """
-        # Parse the input
-        args_list = input_text.strip().split()
+        args_list = self.parse_args(input_text)
         command_input = []
         if len(args_list) > 0:
             command = args_list[0].lower()
