@@ -1,9 +1,9 @@
+import re
 import sys
 from pathlib import Path
-from typing import Callable, List, Sequence, Union
+from typing import List
 
 from commands import Commands
-from notepad.notepad import NotepadApp
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
@@ -29,31 +29,21 @@ class Repl:
             ignore_case=True,
         )
 
-    def print_function(self, msg: str = "") -> None:
-        """Print text without newline character"""
-        print(msg, end="")
-
-    def exec_command(
-        self,
-        command: Callable,
-        args: Sequence[Union[str, List[str], Path]] = (),
-        fallback_command: Callable = print_function,
-        fallback_arg: Union[str, Path] = "",
-    ) -> None:
+    def parse_args(self, input_text: str) -> List[str]:
         """
-        Execute the command with right input or fallback
+        Takes a string with arguments and splits them intu a list of strings
 
         Args:
-            command: command method name
-            args: arguments of the command
-            idx: index of argument, if idx == -1 it is not used
-            fallback_command: alternate command
-            fallback_arg: argument of the fallback command
+            input_text: arguments in a single string
+
+        Returns:
+            List[str]: arguments as a list of strings
         """
-        try:
-            command(*args)
-        except IndexError:
-            fallback_command(fallback_arg)
+        args = [
+            word.replace('"', "") if '"' in word else word
+            for word in re.split(r"\s+(?![\w\_\-\.]+\")", input_text)
+        ]
+        return args
 
     def call_commands(self, input_text: str) -> None:
         """
@@ -62,13 +52,7 @@ class Repl:
         Args:
             input_text: input from the user
         """
-        # Parse the input
-        if '"' in input_text:
-            args_list = input_text.strip().split('"')
-            args_list = [i for i in args_list if i != "" and i != " "]
-            args_list = [i.strip() for i in args_list]
-        else:
-            args_list = input_text.strip().split()
+        args_list = self.parse_args(input_text)
         command_input = []
         if len(args_list) > 0:
             command = args_list[0].lower()
@@ -82,103 +66,55 @@ class Repl:
         if command == "echo":
             print(" ".join(command_input))
 
-        elif command == "edit":
-            if command_input:
-                NotepadApp(file_name=command_input[0]).run()
-            else:
-                NotepadApp().run()
-
         elif command == "cd":
             if command_input:
                 self.current_path = self.commands.change_dir(command_input[0])
-            else:
-                self.print_function()
 
         elif command == "dir":
             if command_input:
-                self.exec_command(
-                    command=self.commands.list_dir,
-                    args=(command_input[0],),
-                    fallback_command=self.commands.list_dir,
-                )
+                self.commands.list_dir(command_input[0])
             else:
-                self.exec_command(
-                    command=self.commands.list_dir,
-                    fallback_command=self.commands.list_dir,
-                )
+                self.commands.list_dir()
 
         elif command == "tree":
             if command_input:
-                self.exec_command(
-                    command=self.commands.tree,
-                    args=(Path(command_input[0]),),
-                    fallback_command=self.commands.tree,
-                    fallback_arg=self.current_path,
-                )
+                self.commands.tree(Path(command_input[0]))
             else:
-                self.exec_command(
-                    command=self.commands.tree,
-                    args=(self.current_path,),
-                )
+                self.commands.tree(self.current_path)
 
         elif command == "type":
             if command_input:
-                self.exec_command(
-                    command=self.commands.show_file_content, args=(command_input[0],)
-                )
+                self.commands.show_file_content(command_input[0])
             else:
                 print("Usage: TYPE file_name")
 
         elif command == "del":
-            self.exec_command(command=self.commands.delete_file, args=(command_input,))
+            if command_input:
+                self.commands.delete_file(command_input)
 
         elif command == "deltree":
             if command_input:
-                self.exec_command(command=self.commands.del_tree, args=(command_input,))
+                self.commands.del_tree(command_input[0])
             else:
                 print("Usage: DELTREE dir_name")
 
         elif command in ["rd", "rmdir"]:
             if command_input:
-                self.exec_command(
-                    command=self.commands.remove_dir, args=(command_input,)
-                )
+                self.commands.remove_dir(command_input[0])
             else:
                 print("Usage: RD dir_name")
 
         elif command == "ren":
             if len(command_input) >= 2:
-                self.exec_command(
-                    command=self.commands.rename,
-                    args=(command_input[0], command_input[1]),
-                )
-
+                self.commands.rename(command_input[0], command_input[1])
             else:
                 print("Usage: REN old_name new_name")
 
         elif command == "date":
             if command_input:
-                self.exec_command(
-                    command=self.commands.get_date,
-                    args=(command_input[0],),
-                    fallback_command=self.commands.get_date,
-                )
+                self.commands.get_date(command_input[0])
             else:
-                self.exec_command(
-                    command=self.commands.get_date,
-                    args=(),
-                    fallback_command=self.commands.get_date,
-                )
-
-        elif command == "move":
-            if len(command_input) >= 2:
-                self.exec_command(
-                    command=self.commands.move_file,
-                    args=(command_input[0], command_input[1]),
-                    fallback_command=self.commands.move_file,
-                )
-            else:
-                print("Usage: MOVE path_to_source_file destination_for_file")
+                self.commands.get_date()
 
         elif command in ["cls", "clear"]:
             clear()
