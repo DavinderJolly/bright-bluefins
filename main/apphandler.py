@@ -8,6 +8,7 @@ import pyautogui
 import pywinauto
 from pywinauto.timings import Timings
 
+Timings.fast()  # Reduce timeout time
 warnings.simplefilter(
     "ignore", category=UserWarning
 )  # Ignore automating 32-Bit with 64-Bit warning
@@ -19,23 +20,21 @@ class AppHandler:
     def __init__(
         self,
         selected_app: pywinauto.application.Application = None,
-        backend: str = "win32",
+        backend: str = "uia",
     ):
         """
         Creates a new instance of the AppHandler class
 
         Args:
             selected_app: an app that will have methods performed on it (such as hide_app or show_app)
-            backend: the backend to use. Acceptable options include 'win32' for win32 and 'uia' for MS Ui
+            backend: the backend to use. Acceptable options include 'win32' for WinForms and 'uia' for MS Ui
         """
-        Timings.fast()
         self.backend = backend
         self.selected_app = selected_app
-        Timings.window_find_retry = 0.001
 
     def get_open_apps(self) -> t.List[pywinauto.application.Application]:
         """
-        Returns a list of all open applications
+        Returns a list of all open applications. Use with UIA backend to avoid unexpected behaviour
 
         Returns:
             list[pywinauto.application.Application]: A list of all open applications
@@ -43,7 +42,7 @@ class AppHandler:
         """
         open_windows = [
             w
-            for w in pywinauto.Desktop(backend=self.backend).windows(visible_only=True)
+            for w in pywinauto.Desktop(backend=self.backend).windows()
             if w.window_text() not in ("", "Taskbar")
         ]
 
@@ -57,7 +56,11 @@ class AppHandler:
             except pywinauto.application.ProcessNotFoundError:
                 continue
 
-            open_apps.append(app)
+            try:
+                if app.top_window().wrapper_object().is_visible():
+                    open_apps.append(app)
+            except RuntimeError:
+                continue
 
         return open_apps
 
@@ -90,7 +93,7 @@ class AppHandler:
 
         """
         if self.selected_app is None:
-            raise ValueError(
+            raise AttributeError(
                 "`self.selected_app` not assigned an app, cannot perform operation"
             )
         if pos is None:
@@ -128,10 +131,9 @@ class AppHandler:
 
         """
         if self.selected_app is None:
-            raise ValueError(
+            raise AttributeError(
                 "`self.selected_app` not assigned an app, cannot perform operation"
             )
-
         if pos is None:
             # halves the screen size
             pos = [n // 1.5 for n in pyautogui.size()]
@@ -165,10 +167,9 @@ class AppHandler:
             PIL.Image
         """
         if self.selected_app is None:
-            raise ValueError(
+            raise AttributeError(
                 "`self.selected_app` not assigned an app, cannot perform operation"
             )
-
         if self.backend == "win32":
             background_handler = (
                 gui_automation.background_handler.BackgroundHandlerWin32(
@@ -178,6 +179,11 @@ class AppHandler:
             img = PIL.Image.fromarray(background_handler.screenshot())
         else:
             self.selected_app.top_window().wrapper_object().set_focus()
-            pywinauto.timings.wait_until(2, 0.05, self.selected_app.top_window().wrapper_object().is_visible, True, )
+            pywinauto.timings.wait_until(
+                2,
+                0.05,
+                self.selected_app.top_window().wrapper_object().is_visible,
+                True,
+            )
             img = self.selected_app.window().wrapper_object().capture_as_image()
         return img
