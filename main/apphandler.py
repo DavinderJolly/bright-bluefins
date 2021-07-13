@@ -168,7 +168,6 @@ class AppHandler:
             raise ValueError(
                 "`self.selected_app` not assigned an app, cannot perform operation"
             )
-
         if self.backend == "win32":
             background_handler = (
                 gui_automation.background_handler.BackgroundHandlerWin32(
