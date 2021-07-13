@@ -78,11 +78,9 @@ class Repl:
 
         elif command == "cd":
             if command_input:
-                self.exec_command(
-                    command=self.commands.change_dir, args=(command_input[0],)
-                )
+                self.current_path = self.commands.change_dir(command_input[0])
             else:
-                print("Usage: CD path")
+                self.print_function()
 
         elif command == "dir":
             if command_input:
