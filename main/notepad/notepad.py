@@ -28,18 +28,23 @@ from pygments.util import ClassNotFound
 class NotepadApp:
     """Creating the Notepad App"""
 
-    def __init__(self, style: Optional[Style] = None) -> None:
+    def __init__(
+        self, file_name: Optional[str] = None, style: Optional[Style] = None
+    ) -> None:
         """Initialize the class
 
         Args:
             style (Optional[Style], optional): Takes in the style. Defaults to {}.
         """
+        if file_name is not None:
+            self.file_name: Optional[str] = file_name
+        else:
+            self.file_name = self.parse_args()
         self.style = style
         self.text = ""
         self.lexer = None
         self.show_status_bar = True
         self.ask_for_filename = False
-        self.file_name = self.parse_args()
         self.text = self.get_text_from_file(self.file_name)
         self.lexer = self.add_lexer(self.file_name)
         self.text_field = self.make_text_field()
