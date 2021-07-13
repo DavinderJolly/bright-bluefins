@@ -1,4 +1,6 @@
 import datetime
+import os
+import shutil
 from pathlib import Path
 from typing import List, Optional
 
@@ -22,9 +24,10 @@ class Commands:
             "DELTREE",
             "TYPE",
             "DATE",
+            "MOVE",
         ]
 
-    def change_dir(self, path: str) -> Path:
+    def change_dir(self, path: str) -> None:
         """
         Change the current directory
 
@@ -38,7 +41,6 @@ class Commands:
             print(f"{path} is not a directory")
         else:
             self.current_path = Path(dir_path.resolve())
-        return self.current_path
 
     def list_dir(self, path: str = "") -> None:
         """
@@ -55,7 +57,7 @@ class Commands:
             dir_path = Path(path)
 
         for dir in dir_path.iterdir():
-            print(dir.name)
+            print(dir)
 
     def tree(self, path: Path, level: int = 0, infix: str = "├──") -> None:
         """
@@ -167,3 +169,39 @@ class Commands:
             print(datetime.datetime.now().strftime(format))
         else:
             print(datetime.datetime.now().strftime("%d-%m-%Y"))
+
+    def move_file(self, src_path: str, dest_path: str) -> None:
+        """Moves the specific file from one place to another
+
+        Args:
+            src_path (str): The source path where the file is located
+            dest_path (str): The destination path where the file has to be moved
+        """
+        try:
+            shutil.move(src_path, dest_path, copy_function=shutil.copytree)
+            print("Moved file from {} to {}".format(src_path, dest_path))
+        except FileNotFoundError:
+            print("The file doesn't exist!")
+            print("Couldn't move the file to the specified location!")
+        except shutil.Error:
+            if os.path.exists(src_path):
+                while True:
+                    replace = input(
+                        "The file exists in the destination so you want to replace it? ([Y]es/[N]o): "
+                    ).lower()
+                    if replace == "y":
+                        filename = Path(src_path).name
+                        os.remove(os.path.join(dest_path, filename))
+                        shutil.move(src_path, dest_path, copy_function=shutil.copytree)
+                        print(
+                            "Replaced the file {}".format(
+                                os.path.join(dest_path, filename)
+                            )
+                        )
+                        break
+                    elif replace == "n":
+                        print("Cancelled the operation!")
+                        break
+                    else:
+                        print("Invalid option please enter the correct option!")
+                        continue

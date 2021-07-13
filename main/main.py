@@ -62,7 +62,12 @@ class Repl:
             input_text: input from the user
         """
         # Parse the input
-        args_list = input_text.strip().split()
+        if '"' in input_text:
+            args_list = input_text.strip().split('"')
+            args_list = [i for i in args_list if i != "" and i != " "]
+            args_list = [i.strip() for i in args_list]
+        else:
+            args_list = input_text.strip().split()
         command_input = []
         if len(args_list) > 0:
             command = args_list[0].lower()
@@ -78,9 +83,11 @@ class Repl:
 
         elif command == "cd":
             if command_input:
-                self.current_path = self.commands.change_dir(command_input[0])
+                self.exec_command(
+                    command=self.commands.change_dir, args=(command_input[0],)
+                )
             else:
-                self.print_function()
+                print("Usage: CD path")
 
         elif command == "dir":
             if command_input:
@@ -157,6 +164,16 @@ class Repl:
                     args=(),
                     fallback_command=self.commands.get_date,
                 )
+
+        elif command == "move":
+            if len(command_input) >= 2:
+                self.exec_command(
+                    command=self.commands.move_file,
+                    args=(command_input[0], command_input[1]),
+                    fallback_command=self.commands.move_file,
+                )
+            else:
+                print("Usage: MOVE path_to_source_file destination_for_file")
 
         elif command in ["cls", "clear"]:
             clear()
