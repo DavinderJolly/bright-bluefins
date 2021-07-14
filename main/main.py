@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import List
 
 from commands import Commands
+from notepad.notepad import NotepadApp
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
@@ -65,6 +66,12 @@ class Repl:
         # Call the commands
         if command == "echo":
             print(" ".join(command_input))
+
+        elif command == "edit":
+            if command_input:
+                NotepadApp(file_name=command_input[0]).run()
+            else:
+                NotepadApp().run()
 
         elif command == "cd":
             if command_input:
