@@ -181,35 +181,31 @@ class Commands:
             src_path (str): The source path where the file is located
             dest_path (str): The destination path where the file has to be moved
         """
-        NotImplemented
-        # try:
-        #     shutil.move(src_path, dest_path, copy_function=shutil.copytree)
-        #     print("Moved file from {} to {}".format(src_path, dest_path))
-        # except FileNotFoundError:
-        #     print(
-        #         "The file doesn't exist!\nCouldn't move the"
-        #         " file to the specified location!"
-        #     )
-        # except shutil.Error:
-        #     if path.exists(src_path):
-        #         while True:
-        #             replace = input(
-        #                 "The file exists in the destination so"
-        #                 " you want to replace it? ([Y]es/[N]o): "
-        #             ).lower()
-        #             if replace == "y":
-        #                 filename = Path(src_path).name
-        #                 os.remove(os.path.join(dest_path, filename))
-        #                 shutil.move(src_path, dest_path,copy_function=shutil.copytree)
-        #                 print(
-        #                     "Replaced the file {}".format(
-        #                         os.path.join(dest_path, filename)
-        #                     )
-        #                 )
-        #                 break
-        #             elif replace == "n":
-        #                 print("Cancelled the operation!")
-        #                 break
-        #             else:
-        #                 print("Invalid option please enter the correct option!")
-        #                 continue
+        src_path_obj = self.current_path.joinpath(src_path).resolve()
+        if not src_path_obj.exists():
+            print(f"{src_path} does not exist")
+            return
+        elif not src_path_obj.is_file():
+            print(f"{src_path} is not a file")
+            return
+        else:
+            file_name = src_path_obj.name
+
+        dest_path_obj = self.current_path.joinpath(dest_path).resolve()
+        dest_path_obj = dest_path_obj.joinpath(file_name)
+
+        if dest_path_obj.exists():
+            while True:
+                reply = input(
+                    "The file exists do you want to replace it? (y/n): "
+                ).lower()
+                if reply == "y":
+                    src_path_obj.replace(dest_path_obj)
+                    break
+                elif reply == "n":
+                    print(end="")
+                    break
+                else:
+                    print("Invalid option please enter the correct option")
+        else:
+            src_path_obj.replace(dest_path_obj)
