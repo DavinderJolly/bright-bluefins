@@ -41,7 +41,7 @@ class Repl:
         """
         args = [
             word.replace('"', "") if '"' in word else word
-            for word in re.split(r"\s+(?![\w\_\-\.]+\")", input_text)
+            for word in re.split(r"\s+(?![\w\s\_\-\.\/]+\")", input_text)
         ]
         return args
 
@@ -97,6 +97,12 @@ class Repl:
                 self.commands.del_tree(command_input[0])
             else:
                 print("Usage: DELTREE dir_name")
+
+        elif command == "move":
+            if len(command_input) >= 2:
+                self.commands.move_file(command_input[0], command_input[1])
+            else:
+                print("Usage: MOVE source_path destination_path")
 
         elif command in ["rd", "rmdir"]:
             if command_input:
