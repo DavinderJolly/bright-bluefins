@@ -1,7 +1,7 @@
 import argparse
-import os
 from datetime import datetime
-from typing import Optional
+from pathlib import Path
+from typing import Optional, Union
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
@@ -29,17 +29,22 @@ class NotepadApp:
     """Creating the Notepad App"""
 
     def __init__(
-        self, file_name: Optional[str] = None, style: Optional[Style] = None
-    ) -> None:
-        """Initialize the class
+        self,
+        file_name: Optional[Union[str, Path]] = None,
+        style: Optional[Style] = None,
+    ):
+        """
+        Initialize the class
 
         Args:
-            style (Optional[Style], optional): Takes in the style. Defaults to {}.
+            style: Takes in the style. Defaults to {}.
         """
-        if file_name is not None:
-            self.file_name: Optional[str] = file_name
-        else:
+        if file_name is None:
             self.file_name = self.parse_args()
+        else:
+            if isinstance(file_name, str):
+                file_name = Path(file_name)
+            self.file_name = file_name
         self.style = style
         self.text = ""
         self.lexer = None
@@ -54,50 +59,52 @@ class NotepadApp:
         self.application = self.make_application()
 
     @staticmethod
-    def parse_args() -> Optional[str]:
-        """Parses the arguments given when running the file
+    def parse_args() -> Optional[Path]:
+        """
+        Parses the arguments given when running the file
 
         Returns:
-            str: returns filename
+            Path: returns filename
         """
         parser = argparse.ArgumentParser()
         parser.add_argument("file_name", type=str, nargs="?")
         args = vars(parser.parse_args())
         file_name = args.get("file_name", None)
-        return file_name
+        return Path(file_name) if file_name is not None else None
 
     @staticmethod
-    def get_text_from_file(file_name: Optional[str]) -> str:
+    def get_text_from_file(file_name: Optional[Path]) -> str:
         """
         Reads text from a file
 
         Args:
-            file_name : Name of the file to read
+            file_name: Name of the file to read
 
         Returns:
             str: text read from the file
         """
         text = ""
-        if file_name is not None and os.path.exists(file_name):
-            with open(file_name) as f:
+        if file_name is not None and file_name.exists():
+            with file_name.open("r") as f:
                 text = f.read()
         return text
 
     def save_file(self) -> None:
         """Saves the file"""
         if self.file_name is not None:
-            with open(self.file_name, "w") as f:
+            with self.file_name.open("w") as f:
                 f.write(self.text_field.text)
         else:
             self.show_status_bar = False
             self.ask_for_filename = True
             get_app().layout.focus(self.filename_prompt_field)
 
-    def add_lexer(self, file_name: Optional[str]) -> Optional[PygmentsLexer]:
-        """Returns the lexer based on the file name
+    def add_lexer(self, file_name: Optional[Path]) -> Optional[PygmentsLexer]:
+        """
+        Returns the lexer based on the file name
 
         Args:
-            file_name (str): Takes the name of the file
+            file_name: Takes the name of the file
 
         Returns:
             Optional[PygmentsLexer]: Returns PygmentsLexer class
@@ -105,7 +112,7 @@ class NotepadApp:
         lexer_name = None
         if file_name is not None:
             try:
-                lexer_name = find_lexer_class_for_filename(file_name)
+                lexer_name = find_lexer_class_for_filename(file_name.name)
                 if lexer_name is not None:
                     self.lexer = PygmentsLexer(lexer_name)
 
@@ -115,7 +122,8 @@ class NotepadApp:
 
     # Adding keybindings
     def make_key_bindings(self) -> KeyBindings:
-        """Creates necessary keybindings for the app
+        """
+        Creates necessary keybindings for the app
 
         Returns:
             KeyBindings: Returns the key bindings
@@ -124,20 +132,21 @@ class NotepadApp:
 
         @kb.add("c-d")
         def _exit(event: KeyPressEvent) -> None:
-            """Exits from the app
+            """
+            Exits from the app
 
             Args:
-                event (KeyPressEvent): Takes an KeyPress event
+                event: Takes an KeyPress event
             """
             event.app.exit()
 
         @kb.add("c-s")
         def _save_file(event: Optional[KeyPressEvent] = None) -> None:
-            """Saves the file
+            """
+            Saves the file
 
             Args:
-                event (Optional[KeyPressEvent], optional): Takes an Optional KeyPress
-                    event. Defaults to None.
+                event: Takes an Optional KeyPress event. Defaults to None.
             """
             self.save_file()
 
@@ -146,7 +155,7 @@ class NotepadApp:
             """Focuses the window
 
             Args:
-                event (KeyPressEvent): Takes an KeyPress event
+                event: Takes an KeyPress event
             """
             event.app.layout.focus(self.root_container.window)
 
@@ -181,7 +190,7 @@ class NotepadApp:
             Returns:
                 bool: True if text should be kept after accepting else False
             """
-            self.file_name = buffer.text.strip()
+            self.file_name = Path(buffer.text.strip())
             self.save_file()
             get_app().layout.focus(self.text_field)
             self.show_status_bar = True
@@ -281,7 +290,8 @@ class NotepadApp:
         return container
 
     def make_layout(self) -> Layout:
-        """Retruns an instance of Layout
+        """
+        Creates an instance of Layout
 
         Returns:
             Layout: Class
@@ -289,7 +299,8 @@ class NotepadApp:
         return Layout(self.root_container, focused_element=self.text_field)
 
     def make_application(self) -> Application:
-        """Return the application instance
+        """
+        Creates an application instance
 
         Returns:
             Application: Class

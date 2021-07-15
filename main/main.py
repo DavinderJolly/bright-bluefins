@@ -5,7 +5,7 @@ from typing import List
 
 from commands import Commands
 from notepad.notepad import NotepadApp
-from photos import ImageViewer
+from photos.photos import ImageViewer
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
@@ -15,7 +15,7 @@ from prompt_toolkit.styles import Style
 class Repl:
     """REPL class"""
 
-    def __init__(self, style: Style, word_list: List[str] = []) -> None:
+    def __init__(self, style: Style, word_list: List[str] = []):
         """
         Constructor for class Repl
 
@@ -76,11 +76,15 @@ class Repl:
             else:
                 NotepadApp(style=style).run()
 
-        elif command == "edit":
+        elif command == "imgview":
             if command_input:
                 path = self.current_path.joinpath(command_input[0]).resolve()
+                if len(command_input) == 2:
+                    mode = command_input[1]
+                else:
+                    mode = "ANSI"
                 if path.exists() and path.is_file():
-                    ImageViewer(str(path)).view()
+                    ImageViewer(path=path, mode=mode).run_app()
 
         elif command == "cd":
             if command_input:
@@ -107,6 +111,8 @@ class Repl:
         elif command == "del":
             if command_input:
                 self.commands.delete_file(command_input)
+            else:
+                print("Usage: DEL file1 file2 file3 ...")
 
         elif command == "deltree":
             if command_input:
