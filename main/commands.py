@@ -1,7 +1,6 @@
 import datetime
 from pythonping import ping
 from pathlib import Path
-from subprocess import call
 from typing import List, Optional
 
 
