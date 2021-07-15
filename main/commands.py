@@ -1,7 +1,8 @@
 import datetime
-from pythonping import ping
 from pathlib import Path
 from typing import List, Optional
+
+from pythonping import ping
 
 
 class Commands:
