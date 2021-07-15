@@ -1,4 +1,6 @@
+import os
 import sys
+from pathlib import Path
 
 from PIL import Image
 from prompt_toolkit import ANSI, Application
@@ -13,20 +15,37 @@ from prompt_toolkit.output.color_depth import ColorDepth
 class ImageViewer:
     """Image viewer class"""
 
-    def __init__(self, path: str, mode: str = "ANSI", size: tuple = (100, 50)):
+    def __init__(self, path: Path, mode: str = "ANSI", size: tuple = (100, 50)):
         self.path = path
         self.mode = mode.upper()
         self.size = size
         self.image_string: str = ""
 
     @staticmethod
-    def rgb2ascii(rgb: list) -> str:
+    def resize_image(image: Image) -> Image:
+        """Returns the resized image
+
+        Args:
+            image: image to be resized
+        """
+        (w, h) = image.size
+        new_height = os.get_terminal_size()[1]
+        # Aspect ratio with height
+        aspect_ratio = w / h
+        new_width = int(aspect_ratio * new_height)
+        image = image.resize((new_width, new_height), Image.HAMMING)
+        return image
+
+    @staticmethod
+    def rgb2ascii(px: int) -> str:
         """Returns the ASCII pixel value
 
         Args:
-            r, g, b: rgb color channel
+            px: greyscale pixel value
         """
-        return ".,-_~:;^+?*#&$@"[int(sum(rgb) / (3 * 255) * 14)]
+        ASCII_PIXELS = ".,-~:;^+?*#&$@"
+        n = len(ASCII_PIXELS)
+        return ASCII_PIXELS[int((px / 255) * (n - 1))]
 
     @staticmethod
     def ansi_fg(r: int, g: int, b: int) -> str:
@@ -63,12 +82,13 @@ class ImageViewer:
 
     def view_ascii(self, image: Image) -> None:
         """View the image in ASCII mode"""
+        image = self.resize_image(image)
+        # Convert image to greyscale
+        image = image.convert("L")
+
         for y in range(0, image.height):
             for x in range(0, image.width):
-                try:
-                    color = image.getpixel((x, y))[:3]
-                except IndexError:
-                    continue
+                color = image.getpixel((x, y))
 
                 self.image_string += self.rgb2ascii(color)
             self.image_string += "\n"
@@ -77,6 +97,7 @@ class ImageViewer:
         """Run the ImageViewer app"""
         image = Image.open(self.path)
         image.thumbnail(self.size, Image.HAMMING)
+        # image = self.resize_image(image)
 
         if self.mode == "ANSI":
             self.view_ansi(image)
@@ -122,6 +143,6 @@ if __name__ == "__main__":
             mode = sys.argv[2]
         else:
             mode = "ANSI"
-        ImageViewer(path=path, mode=mode).run_app()
+        ImageViewer(path=Path(path), mode=mode).run_app()
     else:
         print("Usage: photos img_path")

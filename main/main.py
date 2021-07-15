@@ -76,11 +76,15 @@ class Repl:
             else:
                 NotepadApp(style=style).run()
 
-        elif command == "edit":
+        elif command == "open":
             if command_input:
                 path = self.current_path.joinpath(command_input[0]).resolve()
+                if len(command_input) == 2:
+                    mode = command_input[1]
+                else:
+                    mode = "ANSI"
                 if path.exists() and path.is_file():
-                    ImageViewer(str(path)).view()
+                    ImageViewer(path=path, mode=mode).run_app()
 
         elif command == "cd":
             if command_input:

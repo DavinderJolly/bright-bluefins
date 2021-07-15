@@ -22,6 +22,7 @@ class Commands:
             "EDIT",
             "EXIT",
             "MOVE",
+            "OPEN",
             "PING",
             "QUIT",
             "REN",
