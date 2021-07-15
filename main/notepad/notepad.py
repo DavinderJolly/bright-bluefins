@@ -49,7 +49,7 @@ class NotepadApp:
         self.lexer = self.add_lexer(self.file_name)
         self.text_field = self.make_text_field()
         self.filename_prompt_field = self.make_filename_prompt_field()
-        self.bindings = self.make_key_bindings()
+        self.Key_bindings = self.make_key_bindings()
         self.root_container = self.make_root_container()
         self.application = self.make_application()
 
@@ -118,11 +118,11 @@ class NotepadApp:
         """Creates necessary keybindings for the app
 
         Returns:
-            KeyBindings: Returns the bindings
+            KeyBindings: Returns the key bindings
         """
-        bindings = KeyBindings()
+        kb = KeyBindings()
 
-        @bindings.add("c-d")
+        @kb.add("c-d")
         def _exit(event: KeyPressEvent) -> None:
             """Exits from the app
 
@@ -131,7 +131,7 @@ class NotepadApp:
             """
             event.app.exit()
 
-        @bindings.add("c-s")
+        @kb.add("c-s")
         def _save_file(event: Optional[KeyPressEvent] = None) -> None:
             """Saves the file
 
@@ -141,7 +141,7 @@ class NotepadApp:
             """
             self.save_file()
 
-        @bindings.add("c-c")
+        @kb.add("c-c")
         def _focus(event: KeyPressEvent) -> None:
             """Focuses the window
 
@@ -150,7 +150,7 @@ class NotepadApp:
             """
             event.app.layout.focus(self.root_container.window)
 
-        return bindings
+        return kb
 
     # Make UI elements
     def make_text_field(self) -> TextArea:
@@ -276,7 +276,7 @@ class NotepadApp:
                 ),
                 MenuItem("Info", children=[MenuItem("About")]),
             ],
-            key_bindings=self.bindings,
+            key_bindings=self.Key_bindings,
         )
         return container
 
