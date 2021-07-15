@@ -90,7 +90,7 @@ class ImageViewer:
             [Window(content=FormattedTextControl(text=ANSI(string), key_bindings=kb))]
         )
         layout = Layout(container)
-        app = Application(layout=layout, full_screen=True)
+        app: Application = Application(layout=layout, full_screen=True)
         return app
 
 
