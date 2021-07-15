@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pillow = "~=8.3"
 prompt-toolkit = "~=3.0"
 pygments = "~=2.9"
 pythonping = "~=1.1"
