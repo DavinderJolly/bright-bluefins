@@ -218,8 +218,8 @@ class Commands:
         """Spawn a subprocess to ping the address
 
         Args:
-            addr (str): The address of the website or the IP
-            no_of_packets (Optional[int], optional): No of packets to send. Defaults to 4.
+            addr: The address of the website or the IP
+            no_of_packets: No of packets to send. Defaults to 4.
         """
         ping(f"{addr}", verbose=True)
 
@@ -227,7 +227,7 @@ class Commands:
         """Show the time
 
         Args:
-            format (Optional[str], optional): Specify custom format if needed. Defaults to None.
+            format: Specify custom format if needed. Defaults to None.
         """
         if format is not None:
             print(datetime.datetime.now().strftime(format))
