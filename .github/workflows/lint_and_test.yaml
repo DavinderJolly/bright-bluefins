@@ -33,3 +33,7 @@ jobs:
 
       - name: Run pre-commit hooks.
         uses: pre-commit/action@v2.0.3
+
+      - name: Test with pytest
+        run: |
+          pipenv run test
