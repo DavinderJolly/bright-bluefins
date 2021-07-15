@@ -21,6 +21,7 @@ class Commands:
             "ECHO",
             "EDIT",
             "EXIT",
+            "IMGVIEW",
             "MOVE",
             "PING",
             "QUIT",
