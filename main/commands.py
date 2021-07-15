@@ -2,6 +2,8 @@ import datetime
 from pathlib import Path
 from typing import List, Optional
 
+from pythonping import ping
+
 
 class Commands:
     """Commands for the Repl"""
@@ -25,6 +27,8 @@ class Commands:
             "TYPE",
             "DATE",
             "MOVE",
+            "PING",
+            "TIME",
         ]
 
     def change_dir(self, path: str) -> Path:
@@ -209,3 +213,23 @@ class Commands:
                     print("Invalid option please enter the correct option")
         else:
             src_path_obj.replace(dest_path_obj)
+
+    def ping_addr(self, addr: str) -> None:
+        """Spawn a subprocess to ping the address
+
+        Args:
+            addr: The address of the website or the IP
+            no_of_packets: No of packets to send. Defaults to 4.
+        """
+        ping(f"{addr}", verbose=True)
+
+    def get_time(self, format: Optional[str] = None) -> None:
+        """Show the time
+
+        Args:
+            format: Specify custom format if needed. Defaults to None.
+        """
+        if format is not None:
+            print(datetime.datetime.now().strftime(format))
+        else:
+            print(datetime.datetime.now().strftime("%H:%M:%S"))
