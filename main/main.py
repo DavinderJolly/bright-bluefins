@@ -5,7 +5,7 @@ from typing import List
 
 from commands import Commands
 from notepad.notepad import NotepadApp
-from photos import ImageViewer
+from photos.photos import ImageViewer
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
@@ -76,7 +76,7 @@ class Repl:
             else:
                 NotepadApp(style=style).run()
 
-        elif command == "open":
+        elif command == "imgview":
             if command_input:
                 path = self.current_path.joinpath(command_input[0]).resolve()
                 if len(command_input) == 2:
