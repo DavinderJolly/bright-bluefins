@@ -5,6 +5,7 @@ from typing import List
 
 from commands import Commands
 from notepad.notepad import NotepadApp
+from photos import ImageViewer
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
@@ -69,9 +70,17 @@ class Repl:
 
         elif command == "edit":
             if command_input:
-                NotepadApp(file_name=command_input[0]).run()
+                path = self.current_path.joinpath(command_input[0]).resolve()
+                if path.exists() and path.is_file():
+                    NotepadApp(style=style, file_name=path).run()
             else:
-                NotepadApp().run()
+                NotepadApp(style=style).run()
+
+        elif command == "edit":
+            if command_input:
+                path = self.current_path.joinpath(command_input[0]).resolve()
+                if path.exists() and path.is_file():
+                    ImageViewer(str(path)).view()
 
         elif command == "cd":
             if command_input:

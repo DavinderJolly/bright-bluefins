@@ -10,21 +10,22 @@ class Commands:
         self.current_path = current_path
         self.alias = [
             "CD",
-            "DIR",
-            "CLS",
             "CLEAR",
+            "CLS",
+            "DATE",
+            "DEL",
+            "DELTREE",
+            "DIR",
             "ECHO",
             "EDIT",
             "EXIT",
+            "MOVE",
             "QUIT",
+            "REN",
             "RD",
             "RMDIR",
-            "REN",
-            "DELTREE",
             "TREE",
             "TYPE",
-            "DATE",
-            "MOVE",
         ]
 
     def change_dir(self, path: str) -> Path:
