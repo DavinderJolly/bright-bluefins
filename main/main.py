@@ -106,10 +106,16 @@ class Repl:
                 print("Usage: DELTREE dir_name")
 
         elif command == "move":
-            if len(command_input) >= 2:
+            if len(command_input) == 2:
                 self.commands.move_file(command_input[0], command_input[1])
             else:
                 print("Usage: MOVE source_path destination_path")
+
+        elif command == "ping":
+            if command_input:
+                self.commands.ping_addr(command_input[0])
+            else:
+                print("Usage: PING address Optional[no_of_packets]")
 
         elif command in ["rd", "rmdir"]:
             if command_input:
@@ -118,16 +124,26 @@ class Repl:
                 print("Usage: RD dir_name")
 
         elif command == "ren":
-            if len(command_input) >= 2:
+            if len(command_input) == 2:
                 self.commands.rename(command_input[0], command_input[1])
             else:
                 print("Usage: REN old_name new_name")
 
         elif command == "date":
-            if command_input:
+            if len(command_input) == 1:
                 self.commands.get_date(command_input[0])
-            else:
+            elif len(command_input) == 0:
                 self.commands.get_date()
+            else:
+                print("Usage: DATE Optional[format]")
+
+        elif command == "time":
+            if len(command_input) == 1:
+                self.commands.get_time(command_input[0])
+            elif len(command_input) == 0:
+                self.commands.get_time()
+            else:
+                print("Usage: TIME Optional[format]")
 
         elif command in ["cls", "clear"]:
             clear()

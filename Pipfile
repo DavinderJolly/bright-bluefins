@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 prompt-toolkit = "~=3.0"
 pygments = "*"
+pythonping = "*"
 
 [dev-packages]
 flake8 = "~=3.7"
