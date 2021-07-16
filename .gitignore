@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 .mypy_cache
+.pytest_cache
 
 # Environment specific
 .venv

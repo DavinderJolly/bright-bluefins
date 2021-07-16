@@ -2,23 +2,24 @@ import datetime
 from pathlib import Path
 
 import pytest
+from _pytest.capture import CaptureFixture
 
-from .. import commands
+from ..commands import Commands
 
 
 class TestCommands:
     """Tests for Repl commands"""
 
     @pytest.fixture()
-    def cmds(self) -> commands.Commands:
+    def cmds(self) -> Commands:
         """
         Fixture that creates a Repl object
 
         Returns: Repl
         """
-        return commands.Commands(Path.cwd())
+        return Commands(Path.cwd())
 
-    def test_cd(self, cmds: commands.Commands) -> None:
+    def test_cd(self, cmds: Commands) -> None:
         """
         Unit test for the cd command
 
@@ -32,7 +33,7 @@ class TestCommands:
         cmds.change_dir("..")
         assert cmds.current_path == check_path
 
-    def test_dir(self, cmds: commands.Commands, capsys: pytest.CaptureFixture) -> None:
+    def test_dir(self, cmds: Commands, capsys: CaptureFixture) -> None:
         """
         Unit test for the dir command
 
@@ -57,7 +58,7 @@ class TestCommands:
         )
         assert err == ""
 
-    def test_del(self, cmds: commands.Commands) -> None:
+    def test_del(self, cmds: Commands) -> None:
         """
         Unit test for the del command
 
@@ -73,7 +74,7 @@ class TestCommands:
         cmds.delete_file([str(path)])
         assert not path.exists()
 
-    def test_rd(self, cmds: commands.Commands, capsys: pytest.CaptureFixture) -> None:
+    def test_rd(self, cmds: Commands, capsys: CaptureFixture) -> None:
         """
         Unit test for the rd command
 
@@ -91,7 +92,7 @@ class TestCommands:
         assert out == f"{str(path.resolve())} is not a directory\n"
         assert err == ""
 
-    def test_type(self, cmds: commands.Commands, capsys: pytest.CaptureFixture) -> None:
+    def test_type(self, cmds: Commands, capsys: CaptureFixture) -> None:
         """
         Unit Test for type command
 
@@ -108,7 +109,7 @@ class TestCommands:
         assert out == "hello world\n"
         assert err == ""
 
-    def test_ren(self, cmds: commands.Commands, capsys: pytest.CaptureFixture) -> None:
+    def test_ren(self, cmds: Commands, capsys: CaptureFixture) -> None:
         """
         Unit Test for ren command
 
@@ -128,7 +129,7 @@ class TestCommands:
         assert out == f"{str(new_name.resolve())} is not a file\n"
         assert err == ""
 
-    def test_date(self, cmds: commands.Commands, capsys: pytest.CaptureFixture) -> None:
+    def test_date(self, cmds: Commands, capsys: CaptureFixture) -> None:
         """
         Unit Test for date command
 
