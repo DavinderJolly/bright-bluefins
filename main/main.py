@@ -134,6 +134,14 @@ class Repl:
             else:
                 print("Usage: PING address Optional[no_of_packets]")
 
+        elif command == "path":
+            if len(command_input) == 1:
+                self.commands.list_path(command_input[0])
+            elif len(command_input) == 0:
+                self.commands.list_path()
+            else:
+                print("Usage: PATH Optional[path]")
+
         elif command in ["rd", "rmdir"]:
             if command_input:
                 self.commands.remove_dir(command_input[0])
@@ -161,6 +169,12 @@ class Repl:
                 self.commands.get_time()
             else:
                 print("Usage: TIME Optional[format]")
+
+        elif command == "find":
+            if len(command_input) == 2:
+                self.commands.find_text(command_input[0], command_input[1])
+            else:
+                print("Usage: FIND text path_to_file")
 
         elif command in ["cls", "clear"]:
             clear()
