@@ -24,6 +24,7 @@ class Commands:
             "IMGVIEW",
             "MOVE",
             "PING",
+            "PATH",
             "QUIT",
             "REN",
             "RD",
@@ -235,3 +236,44 @@ class Commands:
             print(datetime.datetime.now().strftime(format))
         else:
             print(datetime.datetime.now().strftime("%H:%M:%S"))
+
+    def list_path(self, path: Optional[str]) -> None:
+        """
+        Print all the exe files in the given path
+
+        Args:
+            path: path to the directory
+        """
+        if path is not None:
+            exe_files = list(self.current_path.joinpath(path).resolve().glob("*.exe"))
+            for i in exe_files:
+                print(self.current_path.joinpath(path).joinpath(i.name).resolve())
+            if len(exe_files) < 1:
+                print("No .exe files were found!")
+        else:
+            exe_files = list(self.current_path.resolve().glob("*.exe"))
+            for i in exe_files:
+                print(self.current_path.joinpath(i.name).resolve())
+            if len(exe_files) < 1:
+                print("No .exe files were found!")
+
+    def find_text(self, filename: str, text: str) -> None:
+        """
+        Finds specific string in a given file
+
+        Args:
+            text: The string you want to search for.
+            filename: The filename to search the string
+        """
+        ln_no = 1
+        try:
+            with open(filename, "r") as f:
+                for line in f:
+                    if text in line:
+                        ln_no += 1
+                        flag = 1
+                        print(f"String {text} found in line {ln_no}.")
+        except FileNotFoundError:
+            print(f"The file {filename} does not exist!")
+        if flag == 0:
+            print(f"String {text} was not found in the file!")
