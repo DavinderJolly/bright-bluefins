@@ -1,4 +1,3 @@
-import re
 import sys
 from pathlib import Path
 from typing import List
@@ -41,11 +40,14 @@ class Repl:
         Returns:
             List[str]: arguments as a list of strings
         """
-        args = [
-            word.replace('"', "") if '"' in word else word
-            for word in re.split(r"\s+(?![\w\s\_\-\.\/]+\")", input_text)
-        ]
-        return args
+        if '"' in input_text:
+            args_list = input_text.strip().split('"')
+            args_list = [i for i in args_list if i != "" and i != " "]
+            args_list = [i.strip() for i in args_list]
+        else:
+            args_list = input_text.strip().split()
+
+        return args_list
 
     def call_commands(self, input_text: str) -> None:
         """

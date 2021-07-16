@@ -3,6 +3,8 @@
 [![Contributors][contributors-shield]][contributors-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+[![pre-commit][pre-commit-shield]][pre-commit-url]
+![python-version-shield]
 
 <!-- PROJECT LOGO -->
 <br>
@@ -43,9 +45,10 @@ _[project_long_description]_
 
 ### Built With
 
-- []()
-- []()
-- []()
+- [prompt_toolkit](https://pypi.org/project/prompt-toolkit/)
+- [Pygments](https://pypi.org/project/Pygments/)
+- [Pillow](https://pypi.org/project/Pillow/)
+- [pythonping](https://pypi.org/project/pythonping/)
 
 <!-- GETTING STARTED -->
 
@@ -59,23 +62,48 @@ To get a local copy up and running follow these simple steps.
    ```sh
    git clone https://github.com/DavinderJolly/bright-bluefins.git
    ```
-2. Install requirements
+1. Install pipenv (skip to next step if already have it installed)
+
    ```sh
-   pip install requirements.txt
+   py -m pip install pipenv
+   ```
+
+1. Install dependencies
+
+   ```sh
+   pipenv install
+   ```
+
+1. Start the program
+   ```sh
+   pipenv run start
    ```
 
 ### Installation on Linux
 
 1. Clone the repo
+
    ```sh
    git clone https://github.com/DavinderJolly/bright-bluefins.git
    ```
-2. Install requirements
+
+1. Install pipenv (skip to next step if already have it installed)
+
    ```sh
-   pip install requirements.txt
+   python -m pip install pipenv # (or python3 -m)
    ```
 
-<!-- USAGE EXAMPLES -->
+1. Install dependencies
+
+   ```sh
+   pipenv install
+   ```
+
+1. Start the program
+   ```sh
+   pipenv run start
+   ```
+   <!-- USAGE EXAMPLES -->
 
 ## Usage
 
@@ -100,9 +128,12 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/DavinderJolly/bright-bluefins?style=flat
 [contributors-url]: https://github.com/DavinderJolly/bright-bluefins/graphs/contributors
-[issues-shield]: https://img.shields.io/github/issues/DavinderJolly/bright-bluefins?style=flat
+[contributors-shield]: https://img.shields.io/github/contributors/DavinderJolly/bright-bluefins?style=flat
 [issues-url]: https://github.com/DavinderJolly/bright-bluefins/issues
-[license-shield]: https://img.shields.io/github/license/DavinderJolly/bright-bluefins?style=flat
+[issues-shield]: https://img.shields.io/github/issues/DavinderJolly/bright-bluefins?style=flat
 [license-url]: https://github.com/DavinderJolly/bright-bluefins/blob/master/LICENSE.txt
+[license-shield]: https://img.shields.io/github/license/DavinderJolly/bright-bluefins?style-flat
+[pre-commit-url]: https://github.com/pre-commit/pre-commit
+[pre-commit-shield]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+[python-version-shield]: https://img.shields.io/github/pipenv/locked/python-version/DavinderJolly/Bright-Bluefins
