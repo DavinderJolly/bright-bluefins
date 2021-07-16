@@ -15,7 +15,7 @@ from prompt_toolkit.styles import Style
 class Repl:
     """REPL class"""
 
-    def __init__(self, style: Style, word_list: List[str] = []) -> None:
+    def __init__(self, style: Style, word_list: List[str] = []):
         """
         Constructor for class Repl
 
@@ -111,6 +111,8 @@ class Repl:
         elif command == "del":
             if command_input:
                 self.commands.delete_file(command_input)
+            else:
+                print("Usage: DEL file1 file2 file3 ...")
 
         elif command == "deltree":
             if command_input:

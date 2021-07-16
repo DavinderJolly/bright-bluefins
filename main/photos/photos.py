@@ -1,6 +1,7 @@
 import os
 import sys
 from pathlib import Path
+from typing import Tuple
 
 from PIL import Image
 from prompt_toolkit import ANSI, Application
@@ -15,15 +16,18 @@ from prompt_toolkit.output.color_depth import ColorDepth
 class ImageViewer:
     """Image viewer class"""
 
-    def __init__(self, path: Path, mode: str = "ANSI", size: tuple = (100, 50)):
+    def __init__(
+        self, path: Path, mode: str = "ANSI", size: Tuple[int, int] = (100, 50)
+    ):
         self.path = path
         self.mode = mode.upper()
         self.size = size
         self.image_string: str = ""
 
     @staticmethod
-    def resize_image(image: Image) -> Image:
-        """Returns the resized image
+    def resize_image(image: Image.Image) -> Image.Image:
+        """
+        Returns the resized image
 
         Args:
             image: image to be resized
@@ -38,7 +42,8 @@ class ImageViewer:
 
     @staticmethod
     def rgb2ascii(px: int) -> str:
-        """Returns the ASCII pixel value
+        """
+        Returns the ASCII pixel value
 
         Args:
             px: greyscale pixel value
@@ -49,7 +54,8 @@ class ImageViewer:
 
     @staticmethod
     def ansi_fg(r: int, g: int, b: int) -> str:
-        """Returns the ANSI 24-bit foreground color
+        """
+        Returns the ANSI 24-bit foreground color
 
         Args:
             r, g, b: rgb color channel
@@ -58,14 +64,15 @@ class ImageViewer:
 
     @staticmethod
     def ansi_bg(r: int, g: int, b: int) -> str:
-        """Returns the ANSI 24-bit background color
+        """
+        Returns the ANSI 24-bit background color
 
         Args:
             r, g, b: rgb color channel
         """
         return "\x1b[48;2;{};{};{}m".format(r, g, b)
 
-    def view_ansi(self, image: Image) -> None:
+    def view_ansi(self, image: Image.Image) -> None:
         """View the image in ANSI mode"""
         for y in range(0, image.height, 2):
             for x in range(0, image.width):
@@ -80,7 +87,7 @@ class ImageViewer:
                 self.image_string += "{}{}▄".format(fg, bg)
             self.image_string += "\n"
 
-    def view_ascii(self, image: Image) -> None:
+    def view_ascii(self, image: Image.Image) -> None:
         """View the image in ASCII mode"""
         image = self.resize_image(image)
         # Convert image to greyscale
@@ -130,7 +137,7 @@ class ImageViewer:
             ]
         )
         layout = Layout(container)
-        app = Application(
+        app: Application = Application(
             color_depth=ColorDepth.TRUE_COLOR, layout=layout, full_screen=True
         )
         return app

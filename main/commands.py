@@ -8,7 +8,7 @@ from pythonping import ping
 class Commands:
     """Commands for the Repl"""
 
-    def __init__(self, current_path: Path) -> None:
+    def __init__(self, current_path: Path):
         self.current_path = current_path
         self.alias = [
             "CD",
@@ -182,11 +182,12 @@ class Commands:
             print(datetime.datetime.now().strftime("%d-%m-%Y"))
 
     def move_file(self, src_path: str, dest_path: str) -> None:
-        """Moves the specific file from one place to another
+        """
+        Moves the specific file from one place to another
 
         Args:
-            src_path (str): The source path where the file is located
-            dest_path (str): The destination path where the file has to be moved
+            src_path: The source path where the file is located
+            dest_path: The destination path where the file has to be moved
         """
         src_path_obj = self.current_path.joinpath(src_path).resolve()
         if not src_path_obj.exists():
@@ -218,7 +219,8 @@ class Commands:
             src_path_obj.replace(dest_path_obj)
 
     def ping_addr(self, addr: str) -> None:
-        """Spawn a subprocess to ping the address
+        """
+        Spawn a subprocess to ping the address
 
         Args:
             addr: The address of the website or the IP
@@ -227,7 +229,8 @@ class Commands:
         ping(f"{addr}", verbose=True)
 
     def get_time(self, format: Optional[str] = None) -> None:
-        """Show the time
+        """
+        Show the time
 
         Args:
             format: Specify custom format if needed. Defaults to None.
