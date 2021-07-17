@@ -76,9 +76,11 @@ class Repl:
             if command_input:
                 path = self.current_path.joinpath(command_input[0]).resolve()
                 if path.exists() and path.is_file():
-                    NotepadApp(style=style, file_name=path).run()
+                    NotepadApp(
+                        style=style, file_name=path, current_path=self.current_path
+                    ).run()
             else:
-                NotepadApp(style=style).run()
+                NotepadApp(style=style, current_path=self.current_path).run()
 
         elif command == "imgview":
             if command_input:
