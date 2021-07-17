@@ -276,18 +276,19 @@ class NotepadApp:
             body=self.make_body(),
             menu_items=[
                 MenuItem(
-                    "File",
+                    "File  ",
                     children=[
                         MenuItem("New"),
                         MenuItem("Save"),
+                        MenuItem("-", disabled=True),
                         MenuItem("Exit", handler=exit_app),
                     ],
                 ),
                 MenuItem(
-                    "View",
+                    "View  ",
                     children=[MenuItem("Status Bar", handler=status_bar_handler)],
                 ),
-                MenuItem("Info", children=[MenuItem("About")]),
+                MenuItem("Info  ", children=[MenuItem("About")]),
             ],
             key_bindings=self.Key_bindings,
         )
@@ -300,7 +301,20 @@ class NotepadApp:
         Returns:
             Layout: Class
         """
-        return Layout(self.root_container, focused_element=self.text_field)
+        return Layout(
+            HSplit(
+                [
+                    Window(
+                        FormattedTextControl("Notepad"),
+                        height=1,
+                        align=WindowAlign.CENTER,
+                        style="class:top",
+                    ),
+                    self.root_container,
+                ]
+            ),
+            focused_element=self.text_field,
+        )
 
     def make_application(self) -> Application:
         """

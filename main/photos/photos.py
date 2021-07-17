@@ -131,7 +131,8 @@ class ImageViewer:
             [
                 Window(
                     content=FormattedTextControl(
-                        text=ANSI(self.image_string), key_bindings=kb
+                        text=ANSI(self.image_string),
+                        key_bindings=kb,
                     )
                 )
             ]

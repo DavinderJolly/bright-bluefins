@@ -9,8 +9,9 @@ class AppStyles:
 
     notepad_style = Style.from_dict(
         {
-            "bottom": "bg:#000000 #000000",
-            "shadow": "#000000",
+            "top": "bg:#00AAAA #000000",
+            "bottom": "bg:#00AAAA #000000",
+            "shadow": "bg:#FFFFFF",
             "text-area": "bg:#0000AA #AAAAAA",
         }
     )
