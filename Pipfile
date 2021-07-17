@@ -1,7 +1,7 @@
 [[source]]
-url = "https://pypi.org/simple"
+url = "https://github.com/DavinderJolly/bright-bluefins"
 verify_ssl = true
-name = "pypi"
+name = "BoxOS"
 
 [packages]
 prompt-toolkit = "~=3.0"

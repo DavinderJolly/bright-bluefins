@@ -156,7 +156,7 @@ class ImageViewer:
                         align=WindowAlign.CENTER,
                         style="class:frame",
                     ),
-                    Window(content="", height=1),
+                    Window(content=None, height=1),
                     container,
                     Window(
                         content=FormattedTextControl("<Ctrl+D=Exit>"),

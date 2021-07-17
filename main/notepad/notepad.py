@@ -288,7 +288,7 @@ class NotepadApp:
                     "File  ",
                     children=[
                         MenuItem("New"),
-                        MenuItem("Save"),
+                        MenuItem("Save", handler=self.save_file),
                         MenuItem("-", disabled=True),
                         MenuItem("Exit", handler=exit_app),
                     ],
