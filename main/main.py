@@ -9,6 +9,7 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
 from prompt_toolkit.styles import Style
+from styles.styles import AppStyles
 
 
 class Repl:
@@ -204,12 +205,5 @@ class Repl:
 
 
 if __name__ == "__main__":
-    style = Style.from_dict(
-        {
-            "completion-menu.completion": "bg:#008888 #ffffff",
-            "completion-menu.completion.current": "bg:#00aaaa #000000",
-            "scrollbar.background": "bg:#88aaaa",
-            "scrollbar.button": "bg:#222222",
-        }
-    )
+    style = AppStyles.style
     Repl(style).start_repl()

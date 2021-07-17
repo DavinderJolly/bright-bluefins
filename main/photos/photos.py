@@ -131,14 +131,17 @@ class ImageViewer:
             [
                 Window(
                     content=FormattedTextControl(
-                        text=ANSI(self.image_string), key_bindings=kb
+                        text=ANSI(self.image_string),
+                        key_bindings=kb,
                     )
                 )
             ]
         )
         layout = Layout(container)
         app: Application = Application(
-            color_depth=ColorDepth.TRUE_COLOR, layout=layout, full_screen=True
+            layout=layout,
+            full_screen=True,
+            color_depth=ColorDepth.TRUE_COLOR,
         )
         return app
 

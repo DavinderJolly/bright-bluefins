@@ -19,6 +19,7 @@ from prompt_toolkit.layout.containers import (
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.lexers import PygmentsLexer
+from prompt_toolkit.output.color_depth import ColorDepth
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import MenuContainer, MenuItem, TextArea
 from pygments.lexers import find_lexer_class_for_filename
@@ -173,6 +174,7 @@ class NotepadApp:
             lexer=self.lexer,
             scrollbar=True,
             line_numbers=True,
+            style="class:text-area",
         )
 
     def make_filename_prompt_field(self) -> TextArea:
@@ -236,6 +238,7 @@ class NotepadApp:
                             ),
                         ],
                         height=1,
+                        style="class:bottom",
                     ),
                     filter=Condition(lambda: self.show_status_bar),
                 ),
@@ -249,7 +252,8 @@ class NotepadApp:
                     ),
                     filter=Condition(lambda: self.ask_for_filename),
                 ),
-            ]
+            ],
+            style="class:body",
         )
         return body
 
@@ -272,18 +276,19 @@ class NotepadApp:
             body=self.make_body(),
             menu_items=[
                 MenuItem(
-                    "File",
+                    "File  ",
                     children=[
                         MenuItem("New"),
                         MenuItem("Save"),
+                        MenuItem("-", disabled=True),
                         MenuItem("Exit", handler=exit_app),
                     ],
                 ),
                 MenuItem(
-                    "View",
+                    "View  ",
                     children=[MenuItem("Status Bar", handler=status_bar_handler)],
                 ),
-                MenuItem("Info", children=[MenuItem("About")]),
+                MenuItem("Info  ", children=[MenuItem("About")]),
             ],
             key_bindings=self.Key_bindings,
         )
@@ -296,7 +301,20 @@ class NotepadApp:
         Returns:
             Layout: Class
         """
-        return Layout(self.root_container, focused_element=self.text_field)
+        return Layout(
+            HSplit(
+                [
+                    Window(
+                        FormattedTextControl("Notepad"),
+                        height=1,
+                        align=WindowAlign.CENTER,
+                        style="class:top",
+                    ),
+                    self.root_container,
+                ]
+            ),
+            focused_element=self.text_field,
+        )
 
     def make_application(self) -> Application:
         """
@@ -306,7 +324,10 @@ class NotepadApp:
             Application: Class
         """
         return Application(
-            layout=self.make_layout(), style=self.style, full_screen=True
+            layout=self.make_layout(),
+            style=self.style,
+            full_screen=True,
+            color_depth=ColorDepth.TRUE_COLOR,
         )
 
     def run(self) -> None:
