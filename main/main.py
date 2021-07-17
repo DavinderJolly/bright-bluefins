@@ -1,4 +1,3 @@
-import re
 import sys
 from pathlib import Path
 from typing import List
@@ -43,11 +42,14 @@ class Repl:
         Returns:
             List[str]: arguments as a list of strings
         """
-        args = [
-            word.replace('"', "") if '"' in word else word
-            for word in re.split(r"\s+(?![\w\s\_\-\.\/]+\")", input_text)
-        ]
-        return args
+        if '"' in input_text:
+            args_list = input_text.strip().split('"')
+            args_list = [i for i in args_list if i != "" and i != " "]
+            args_list = [i.strip() for i in args_list]
+        else:
+            args_list = input_text.strip().split()
+
+        return args_list
 
     def call_commands(self, input_text: str) -> None:
         """
@@ -134,6 +136,14 @@ class Repl:
             else:
                 print("Usage: PING address Optional[no_of_packets]")
 
+        elif command == "path":
+            if len(command_input) == 1:
+                self.commands.list_path(command_input[0])
+            elif len(command_input) == 0:
+                self.commands.list_path()
+            else:
+                print("Usage: PATH Optional[path]")
+
         elif command in ["rd", "rmdir"]:
             if command_input:
                 self.commands.remove_dir(command_input[0])
@@ -161,6 +171,12 @@ class Repl:
                 self.commands.get_time()
             else:
                 print("Usage: TIME Optional[format]")
+
+        elif command == "find":
+            if len(command_input) == 2:
+                self.commands.find_text(command_input[0], command_input[1])
+            else:
+                print("Usage: FIND text path_to_file")
 
         elif command in ["cls", "clear"]:
             clear()
