@@ -27,6 +27,7 @@ class Repl:
         self.current_path: Path = Path.cwd()
         self.style = style
         self.commands = Commands(self.current_path)
+        clear()
         self.word_completer = WordCompleter(
             self.commands.alias + word_list,
             ignore_case=True,
