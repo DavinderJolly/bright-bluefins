@@ -14,6 +14,7 @@ class Commands:
             "CD",
             "CLEAR",
             "CLS",
+            "CWD",
             "DATE",
             "DEL",
             "DELTREE",
@@ -42,7 +43,7 @@ class Commands:
         Args:
             path: directory path to switch to
         """
-        dir_path = self.current_path.joinpath(path.lower())
+        dir_path = self.current_path.joinpath(path)
         if not dir_path.exists():
             print(f"{path} does not exist")
         elif not dir_path.is_dir():
