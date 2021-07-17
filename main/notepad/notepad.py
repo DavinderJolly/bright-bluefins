@@ -20,7 +20,7 @@ from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.lexers import PygmentsLexer
 from prompt_toolkit.output.color_depth import ColorDepth
-from prompt_toolkit.styles import Style
+from prompt_toolkit.styles.style import _MergedStyle
 from prompt_toolkit.widgets import MenuContainer, MenuItem, TextArea
 from pygments.lexers import find_lexer_class_for_filename
 from pygments.util import ClassNotFound
@@ -32,7 +32,7 @@ class NotepadApp:
     def __init__(
         self,
         file_name: Optional[Union[str, Path]] = None,
-        style: Optional[Style] = None,
+        style: Optional[_MergedStyle] = None,
     ):
         """
         Initialize the class

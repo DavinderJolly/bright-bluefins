@@ -11,7 +11,7 @@ from prompt_toolkit.layout.containers import HSplit, VSplit, Window, WindowAlign
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.output.color_depth import ColorDepth
-from prompt_toolkit.styles import Style
+from prompt_toolkit.styles.style import _MergedStyle
 
 
 class ImageViewer:
@@ -22,7 +22,7 @@ class ImageViewer:
         path: Path,
         mode: str = "ANSI",
         size: Tuple[int, int] = (100, 50),
-        style: Optional[Style] = None,
+        style: Optional[_MergedStyle] = None,
     ):
         self.path = path
         self.mode = mode.upper()
