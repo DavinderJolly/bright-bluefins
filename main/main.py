@@ -96,6 +96,9 @@ class Repl:
             if command_input:
                 self.current_path = self.commands.change_dir(command_input[0])
 
+        elif command == "cwd":
+            print(self.current_path)
+
         elif command == "dir":
             if command_input:
                 self.commands.list_dir(command_input[0])
