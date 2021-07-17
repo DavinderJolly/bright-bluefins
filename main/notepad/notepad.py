@@ -214,8 +214,8 @@ class NotepadApp:
         """
 
         def get_datetime() -> str:
-            """Get datetime in (dd/mm/yyyy, hh:mm:ss) format"""
-            return datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+            """Get datetime in (dd/mm/yyyy, hh:mm) format"""
+            return datetime.now().strftime("%d/%m/%Y, %H:%M")
 
         def get_pos() -> str:
             """Get line and column number"""
