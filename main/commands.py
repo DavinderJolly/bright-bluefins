@@ -2,7 +2,9 @@ import datetime
 from pathlib import Path
 from typing import List, Optional
 
+import pywinauto
 from pythonping import ping
+from pywinauto.timings import Timings
 
 
 class Commands:
@@ -34,6 +36,7 @@ class Commands:
             "TIME",
             "TREE",
             "TYPE",
+            "LISTAPPS",
         ]
 
     def change_dir(self, path: str) -> Path:
@@ -283,3 +286,16 @@ class Commands:
             print(f"The file {filename} does not exist!")
         if flag == 0:
             print(f"String {text} was not found in the file!")
+
+    @staticmethod
+    def get_app_names() -> List[str]:
+        """Returns a list of all open application's names"""
+        Timings.fast()
+        # Get a list of all open apps, only appends suitable apps and not background apps
+        open_windows = [
+            w.window_text()
+            for w in pywinauto.Desktop(backend="win32").windows(visible_only=True)
+            if w.window_text() not in ("", "Taskbar")
+        ]
+
+        return open_windows

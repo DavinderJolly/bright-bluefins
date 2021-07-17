@@ -190,6 +190,14 @@ class Repl:
         elif command in ["exit", "quit"]:
             sys.exit()
 
+        elif command == "listapps":
+            open_app_names = self.commands.get_app_names()
+            print(
+                "\n".join(
+                    ["Open Apps:", f"--{len(open_app_names)} found--", *open_app_names]
+                )
+            )
+
         else:
             print(f"Command {command} not found")
 
