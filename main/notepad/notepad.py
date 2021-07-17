@@ -31,6 +31,7 @@ class NotepadApp:
 
     def __init__(
         self,
+        current_path: Path,
         file_name: Optional[Union[str, Path]] = None,
         style: Optional[_MergedStyle] = None,
     ):
@@ -38,14 +39,17 @@ class NotepadApp:
         Initialize the class
 
         Args:
-            style: Takes in the style. Defaults to {}.
+            file_name: file to save
+            style: Takes in the style. Defaults to {}
+            current_path: current path of the REPL
         """
+        self.current_path = current_path
         if file_name is None:
             self.file_name = self.parse_args()
         else:
             if isinstance(file_name, str):
                 file_name = Path(file_name)
-            self.file_name = file_name
+            self.file_name = self.current_path.joinpath(file_name).resolve()
         self.style = style
         self.text = ""
         self.lexer = None
@@ -224,6 +228,8 @@ class NotepadApp:
                 self.text_field.document.cursor_position_col + 1,
             )
 
+        save_path_string = "Path To Save File: "
+
         body = HSplit(
             [
                 self.text_field,
@@ -245,7 +251,10 @@ class NotepadApp:
                 ConditionalContainer(
                     content=VSplit(
                         [
-                            Window(FormattedTextControl("Path To Save File: ")),
+                            Window(
+                                FormattedTextControl(save_path_string),
+                                width=len(save_path_string),
+                            ),
                             self.filename_prompt_field,
                         ],
                         height=1,
@@ -336,4 +345,4 @@ class NotepadApp:
 
 
 if __name__ == "__main__":
-    NotepadApp().run()
+    NotepadApp(Path.cwd()).run()
