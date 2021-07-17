@@ -241,7 +241,7 @@ class Commands:
         else:
             print(datetime.datetime.now().strftime("%H:%M:%S"))
 
-    def list_path(self, path: Optional[str]) -> None:
+    def list_path(self, path: Optional[str] = None) -> None:
         """
         Print all the exe files in the given path
 
@@ -270,6 +270,7 @@ class Commands:
             filename: The filename to search the string
         """
         ln_no = 1
+        flag = 0
         try:
             with open(filename, "r") as f:
                 for line in f:

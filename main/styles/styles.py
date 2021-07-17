@@ -11,15 +11,17 @@ class AppStyles:
         {
             "top": "bg:#00AAAA #000000",
             "bottom": "bg:#00AAAA #000000",
-            "shadow": "bg:#FFFFFF",
+            "shadow": "bg:#000000",
             "text-area": "bg:#0000AA #AAAAAA",
         }
     )
+    photos_style = Style.from_dict({"frame": "bg:#AAAAAA #000000"})
     lexer_style = style_from_pygments_cls(BrightBlueStyle)
 
     style = merge_styles(
         [
             notepad_style,
+            photos_style,
             lexer_style,
         ]
     )

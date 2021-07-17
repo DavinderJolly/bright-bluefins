@@ -8,24 +8,25 @@ from photos.photos import ImageViewer
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import clear
-from prompt_toolkit.styles import Style
+from prompt_toolkit.styles.style import _MergedStyle
 from styles.styles import AppStyles
 
 
 class Repl:
     """REPL class"""
 
-    def __init__(self, style: Style, word_list: List[str] = []):
+    def __init__(self, style: _MergedStyle, word_list: List[str] = []):
         """
         Constructor for class Repl
 
         Args:
-            style (prompt_toolkit.styles.Style): styles for the REPL
+            style: styles for the REPL
             word_list: list of extra words to add to the word_completer. Defaults to [].
         """
         self.current_path: Path = Path.cwd()
         self.style = style
         self.commands = Commands(self.current_path)
+        clear()
         self.word_completer = WordCompleter(
             self.commands.alias + word_list,
             ignore_case=True,
@@ -87,7 +88,7 @@ class Repl:
                 else:
                     mode = "ANSI"
                 if path.exists() and path.is_file():
-                    ImageViewer(path=path, mode=mode).run_app()
+                    ImageViewer(path=path, mode=mode, style=style).run_app()
 
         elif command == "cd":
             if command_input:
