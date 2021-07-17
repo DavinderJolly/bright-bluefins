@@ -345,4 +345,4 @@ class NotepadApp:
 
 
 if __name__ == "__main__":
-    NotepadApp(Path.cwd()).run()
+    NotepadApp(current_path=Path.cwd()).run()
