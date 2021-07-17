@@ -10,7 +10,7 @@
 <br>
 <p align="center">
   <a href="https://github.com/DavinderJolly/bright-bluefins">
-    <img src="images/logo.png" alt="Logo" width="150" height="150">
+    <img src="docs/images/logo.png" alt="Logo" width="150" height="150">
   </a>
   <h1 align="center">BoxOS</h1>
   <br>
