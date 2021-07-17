@@ -1,13 +1,14 @@
 [[source]]
-url = "https://github.com/DavinderJolly/bright-bluefins"
+url = "https://pypi.org/simple"
 verify_ssl = true
-name = "BoxOS"
+name = "pypi"
 
 [packages]
 prompt-toolkit = "~=3.0"
 pygments = "~=2.9"
 pythonping = "~=1.1"
 pillow = "~=8.3"
+pyfiglet = "~=0.8"
 
 [dev-packages]
 flake8 = "~=3.7"
