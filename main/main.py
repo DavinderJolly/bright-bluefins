@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 from typing import List
 
+import pyfiglet
 from commands import Commands
 from notepad.notepad import NotepadApp
 from photos.photos import ImageViewer
@@ -197,6 +198,9 @@ class Repl:
         session: PromptSession = PromptSession(
             completer=self.word_completer, style=self.style
         )
+
+        result = pyfiglet.figlet_format("BoxOS")
+        print(result)
 
         while True:
             try:
