@@ -85,7 +85,7 @@ class Repl:
                 else:
                     mode = "ANSI"
                 if path.exists() and path.is_file():
-                    ImageViewer(path=path, mode=mode).run_app()
+                    ImageViewer(path=path, mode=mode, style=style).run_app()
 
         elif command == "cd":
             if command_input:

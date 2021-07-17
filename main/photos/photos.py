@@ -1,27 +1,33 @@
 import os
 import sys
 from pathlib import Path
-from typing import Tuple
+from typing import Optional, Tuple
 
 from PIL import Image
 from prompt_toolkit import ANSI, Application
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
-from prompt_toolkit.layout.containers import VSplit, Window
+from prompt_toolkit.layout.containers import HSplit, VSplit, Window, WindowAlign
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.output.color_depth import ColorDepth
+from prompt_toolkit.styles import Style
 
 
 class ImageViewer:
     """Image viewer class"""
 
     def __init__(
-        self, path: Path, mode: str = "ANSI", size: Tuple[int, int] = (100, 50)
+        self,
+        path: Path,
+        mode: str = "ANSI",
+        size: Tuple[int, int] = (100, 50),
+        style: Optional[Style] = None,
     ):
         self.path = path
         self.mode = mode.upper()
         self.size = size
+        self.style = style
         self.image_string: str = ""
 
     @staticmethod
@@ -132,15 +138,41 @@ class ImageViewer:
                 Window(
                     content=FormattedTextControl(
                         text=ANSI(self.image_string),
-                        key_bindings=kb,
-                    )
+                    ),
+                    always_hide_cursor=True,
+                    align=WindowAlign.CENTER,
                 )
             ]
         )
-        layout = Layout(container)
+        layout = Layout(
+            HSplit(
+                [
+                    Window(
+                        content=FormattedTextControl(
+                            "Photos - {}".format(self.path.name)
+                        ),
+                        height=1,
+                        always_hide_cursor=True,
+                        align=WindowAlign.CENTER,
+                        style="class:frame",
+                    ),
+                    Window(content="", height=1),
+                    container,
+                    Window(
+                        content=FormattedTextControl("<Ctrl+D=Exit>"),
+                        height=1,
+                        always_hide_cursor=True,
+                        align=WindowAlign.LEFT,
+                        style="class:frame",
+                    ),
+                ],
+                key_bindings=kb,
+            )
+        )
         app: Application = Application(
             layout=layout,
             full_screen=True,
+            style=self.style,
             color_depth=ColorDepth.TRUE_COLOR,
         )
         return app
