@@ -52,10 +52,13 @@ The shell runs on top of a prompt_toolkit prompt session, which creates a REPL a
 
 The structure of the project which actually is made using the [`TREE`](/docs/ShellCommands.md#tree) command of the shell!
 
-> The folder structure is restructured a bit but essentially this is what the tree command will output.
+> The folder structure is restructured a bit to make it prettier but essentially the output is almost same.
 
 ```
 └──bright-bluefins
+    ├──.github
+    │   └──workflows
+    │       └──lint.yaml
     ├──docs
     │   ├──images
     │   │   │
@@ -188,8 +191,7 @@ TREE ./main
 ```sh
 PING 1.1.1.1
 ```
-
-_For the complete and detailed list of commands and features, please refer to the [Documentation](/docs/ShellCommands.md)_
+> _For the complete and detailed list of commands and features, please refer to the [Documentation](/docs/ShellCommands.md)_
 
 <!-- LICENSE -->
 
