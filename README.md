@@ -15,7 +15,7 @@
   <h1 align="center">BoxOS</h1>
   <br>
   <br>
-  *[project_description]*
+  A fun Terminal/REPL to mimic the nostalgic MS-DOS from the 1980's
   <br>
   <br>
 </p>
@@ -41,7 +41,9 @@
     <img src="screenshot-url" alt="App screenshot">
 </p> <br>
 
-_[project_long_description]_
+A clone of a 1980's MS-DOS built with python and prompt_toolkit framework.
+This is a simplistic REPL with one of the most famous and basic commands of MS-DOS
+and a basic text editor in-built like notepad.
 
 ### Built With
 
@@ -107,7 +109,28 @@ To get a local copy up and running follow these simple steps.
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+A few of the famous commands are:
+
+[ECHO](/docs/ShellCommands.md#echo)
+```sh
+ECHO Message
+```
+[EDIT](/docs/ShellCommands.md#edit)
+```sh
+EDIT filename.txt
+```
+[IMGVIEW](/docs/ShellCommands.md#imgview)
+```sh
+IMGVIEW image.png
+```
+[TREE](/docs/ShellCommands.md#tree)
+```sh
+TREE Path
+```
+[PING](/docs/ShellCommands.md#ping)
+```sh
+PING IP/domain
+```
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
@@ -121,9 +144,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Acknowledgements
 
-- []()
-- []()
-- []()
+- [Anonymous390](https://github.com/Anonymous390)
+- [DavinderJolly](https://github.com/DavinderJolly)
+- [Abir0](https://github.com/abir0)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
