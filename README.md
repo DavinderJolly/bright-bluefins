@@ -10,12 +10,11 @@
 <br>
 <p align="center">
   <a href="https://github.com/DavinderJolly/bright-bluefins">
-    <img src="docs/images/logo.png" alt="Logo" width="150" height="150">
+    <img src="docs/images/logo.png" alt="Logo" width="200" height="200">
   </a>
   <h1 align="center">BoxOS</h1>
-  <br>
-  <br>
-  A fun Shell/REPL to mimic the nostalgic MS-DOS from the 1980's
+
+  A simple Shell that mimics the nostalgic MS-DOS from the 1980s made by Bright Bluefins of Python Discord Summer Code Jam 2021.
   <br>
   <br>
 </p>
@@ -25,25 +24,28 @@
 ## Table of Contents
 
 1. [About The Project](#about-the-project)
+   - [How It Works](#how-it-works)
    - [Built With](#built-with)
 1. [Getting Started](#getting-started)
-   - [Installation on Windows](#Installation-on-Windows)
-   - [Installation on Linux](#Installation-on-Linux)
+   - [Installation on Windows](#installation-on-windows)
+   - [Installation on Linux](#installation-on-linux)
 1. [Usage](#usage)
 1. [License](#license)
-1. [Acknowledgements](#acknowledgements)
+1. [Resources](#resources)
 
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
 
 <p align="center">
-    <img src="docs/images/App.png" alt="App screenshot">
+    <img src="/docs/images/shell.png" alt="App screenshot">
 </p> <br>
 
-A clone of a 1980's MS-DOS built with python and prompt_toolkit framework.
-This is a simplistic REPL with one of the most famous and basic commands of MS-DOS
-and a basic text editor in-built like notepad.
+This project aims to create a clone of a MS-DOS with python and prompt-toolkit framework. We named it ***BoxOS*** because the TUI resembles an old box inside the modern OS with GUIs. In a nutshell, it is a simple shell with common and basic commands of MS-DOS. It also features a text editor called Notepad and an image viewer called Photos.
+
+### How It Works
+
+The shell runs on top of a prompt_toolkit prompt session, which creates a REPL and takes the user input. It then parses the input from the user and then calls the appropriate command. It keeps track of of the current path as a Path object. So that we can resolve the relative path as well as absolute path. It also uses custom styles to create the looks of the old DOS.
 
 ### Built With
 
@@ -51,6 +53,7 @@ and a basic text editor in-built like notepad.
 - [Pygments](https://pypi.org/project/Pygments/)
 - [Pillow](https://pypi.org/project/Pillow/)
 - [pythonping](https://pypi.org/project/pythonping/)
+- [pyfiglet](https://pypi.org/project/pyfiglet/)
 
 <!-- GETTING STARTED -->
 
@@ -105,11 +108,11 @@ To get a local copy up and running follow these simple steps.
    ```sh
    pipenv run start
    ```
-   <!-- USAGE EXAMPLES -->
+<!-- USAGE EXAMPLES -->
 
 ## Usage
 
-A few of the famous commands are:
+Example usage of few of the common commands are given below.
 
 [ECHO](/docs/ShellCommands.md#echo)
 
@@ -136,12 +139,11 @@ TREE Path
 ```
 
 [PING](/docs/ShellCommands.md#ping)
-
 ```sh
 PING IP/domain
 ```
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For the complete and detailed list of commands and features, please refer to the [Documentation](/docs/ShellCommands.md)_
 
 <!-- LICENSE -->
 
@@ -151,14 +153,19 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- ACKNOWLEDGEMENTS -->
 
-## Acknowledgements
 
-- [Anonymous390](https://github.com/Anonymous390)
-- [DavinderJolly](https://github.com/DavinderJolly)
-- [Abir0](https://github.com/abir0)
+
+## Resources
+
+A lot of free resources have been used to develop this project. A huge thanks to the creators of these resources:
+
+- [Prompt Toolkit Docs](https://python-prompt-toolkit.readthedocs.io/en/master/)
+- [Prompt Toolkit Examples](https://github.com/prompt-toolkit/python-prompt-toolkit/tree/master/examples)
+- [adzierzanowski/timg](https://github.com/adzierzanowski/timg)
+- [ANSI Escape Codes](https://en.m.wikipedia.org/wiki/ANSI_escape_code)
+- [DOS Commands List](https://en.m.wikipedia.org/wiki/List_of_DOS_commands)
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [contributors-url]: https://github.com/DavinderJolly/bright-bluefins/graphs/contributors
 [contributors-shield]: https://img.shields.io/github/contributors/DavinderJolly/bright-bluefins?style=flat
