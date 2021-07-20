@@ -21,20 +21,20 @@
 
 ---
 
-- ### type `EDIT` in the Notepad followed by a filename to open a filename in the editor
+- ### Type `EDIT` in the Notepad followed by a filename to open a filename in the editor
 
   ![EditCommandScreenshot](images/EDIT1.png)
 
-- ### if there's no file then just tyype `EDIT` and press **CTRL + s** to save current buffer as a file
+- ### If there's no file then just tyype `EDIT` and press **CTRL + s** to save current buffer as a file
 
   ![SavingScreenshot](images/EDIT2.png)
 
-- ### press CTRL + c to open the Menu
+- ### Press CTRL + c to open the Menu
 
   > NOTE: New and About not implemented
 
   ![Menuscreenshot](images/EDIT3.png)
 
-- ### press CTRL + d to exit to the shell
+- ### Press Ctrl + d to exit to the shell
 
   ![ShellScreenShot](images/EDIT4.png)
