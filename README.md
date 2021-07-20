@@ -108,10 +108,11 @@ To get a local copy up and running of this shell, follow these simple steps.
 
 ### Installation on Windows
 
-1. Clone the repo
+1. Clone the repo and go into the local repo `bright-bluefins`
 
    ```sh
    git clone https://github.com/DavinderJolly/bright-bluefins.git
+   cd bright-bluefins
    ```
 
 1. Install pipenv (skip to next step if already have it installed)
@@ -134,10 +135,11 @@ To get a local copy up and running of this shell, follow these simple steps.
 
 ### Installation on Linux
 
-1. Clone the repo
+1. Clone the repo and go into the local repo `bright-bluefins`
 
    ```sh
    git clone https://github.com/DavinderJolly/bright-bluefins.git
+   cd bright-bluefins
    ```
 
 1. Install pipenv (skip to next step if already have it installed)
@@ -157,6 +159,7 @@ To get a local copy up and running of this shell, follow these simple steps.
    ```sh
    pipenv run start
    ```
+   
 <!-- USAGE EXAMPLES -->
 
 ## Usage
