@@ -45,7 +45,7 @@ This project aims to create a clone of a MS-DOS with python and prompt-toolkit f
 
 ### How It Works
 
-The shell runs on top of a prompt_toolkit prompt session, which creates a REPL and takes the user input. It then parses the input from the user and then calls the appropriate command. It keeps track of of the current path as a Path object. So that we can resolve the relative path as well as absolute path. It also uses custom styles to create the looks of the old DOS.  
+The shell runs on top of a prompt_toolkit prompt session, which creates a REPL and takes the user input. It then parses the input from the user and then calls the appropriate command. It keeps track of of the current path as a Path object. So that we can resolve the relative path as well as absolute path. It also uses custom styles to create the looks of the old DOS.
 
 ### Built With
 
