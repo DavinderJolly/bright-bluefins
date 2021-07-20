@@ -15,7 +15,7 @@
   <h1 align="center">BoxOS</h1>
   <br>
   <br>
-  A fun Terminal/REPL to mimic the nostalgic MS-DOS from the 1980's
+  A fun Shell/REPL to mimic the nostalgic MS-DOS from the 1980's
   <br>
   <br>
 </p>
@@ -112,22 +112,31 @@ To get a local copy up and running follow these simple steps.
 A few of the famous commands are:
 
 [ECHO](/docs/ShellCommands.md#echo)
+
 ```sh
 ECHO Message
 ```
+
 [EDIT](/docs/ShellCommands.md#edit)
+
 ```sh
 EDIT filename.txt
 ```
+
 [IMGVIEW](/docs/ShellCommands.md#imgview)
+
 ```sh
 IMGVIEW image.png
 ```
+
 [TREE](/docs/ShellCommands.md#tree)
+
 ```sh
 TREE Path
 ```
+
 [PING](/docs/ShellCommands.md#ping)
+
 ```sh
 PING IP/domain
 ```
