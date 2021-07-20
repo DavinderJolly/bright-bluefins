@@ -25,6 +25,7 @@
 
 1. [About The Project](#about-the-project)
    - [How It Works](#how-it-works)
+   - [Project Structure](#project-structure)
    - [Built With](#built-with)
 1. [Getting Started](#getting-started)
    - [Installation on Windows](#installation-on-windows)
@@ -45,7 +46,48 @@ This project aims to create a clone of a MS-DOS with python and prompt-toolkit f
 
 ### How It Works
 
-The shell runs on top of a prompt_toolkit prompt session, which creates a REPL and takes the user input. It then parses the input from the user and then calls the appropriate command. It keeps track of of the current path as a Path object. So that we can resolve the relative path as well as absolute path. It also uses custom styles to create the looks of the old DOS.
+The shell runs on top of a prompt_toolkit prompt session, which creates a REPL and takes the user input. It then parses the input from the user and then calls the appropriate command. It keeps track of the current path as a Path object. So that we can resolve the relative path as well as absolute path. It also uses custom styles to create the looks of the old DOS.
+
+### Project Structure
+
+The structure of the project which actually is made using the [`TREE`](/docs/ShellCommands.md#tree) command of the shell!
+
+> The folder structure is restructured a bit but essentially this is what the tree command will output.
+
+```
+└──bright-bluefins
+    ├──docs
+    │   ├──images
+    │   │   │
+    │   │  ...
+    │   ├──Notepad.md
+    │   ├──Photos.md
+    │   └──ShellCommands.md
+    ├──main
+    │   ├──commands.py
+    │   ├──main.py
+    │   ├──notepad
+    │   │   ├──notepad.py
+    │   │   └──__init__.py
+    │   ├──photos
+    │   │   ├──photos.py
+    │   │   └──__init__.py
+    │   ├──styles
+    │   │   ├──bright_blue.py
+    │   │   ├──styles.py
+    │   │   └──__init__.py
+    │   ├──tests
+    │   │   ├──commands_test.py
+    │   │   └──__init__.py
+    │   └──__init__.py
+    ├──.gitignore
+    ├──.pre-commit-config.yaml
+    ├──LICENSE
+    ├──Pipfile
+    ├──Pipfile.lock
+    ├──README.md
+    └──tox.ini
+```
 
 ### Built With
 
@@ -59,14 +101,16 @@ The shell runs on top of a prompt_toolkit prompt session, which creates a REPL a
 
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+To get a local copy up and running of this shell, follow these simple steps.
 
 ### Installation on Windows
 
 1. Clone the repo
+
    ```sh
    git clone https://github.com/DavinderJolly/bright-bluefins.git
    ```
+
 1. Install pipenv (skip to next step if already have it installed)
 
    ```sh
@@ -80,6 +124,7 @@ To get a local copy up and running follow these simple steps.
    ```
 
 1. Start the program
+
    ```sh
    pipenv run start
    ```
@@ -105,6 +150,7 @@ To get a local copy up and running follow these simple steps.
    ```
 
 1. Start the program
+
    ```sh
    pipenv run start
    ```
@@ -112,35 +158,35 @@ To get a local copy up and running follow these simple steps.
 
 ## Usage
 
-Example usage of few of the common commands are given below.
+Example usage of few of the common commands are given below. Try these out and have fun!
 
-[ECHO](/docs/ShellCommands.md#echo)
+[CD](/docs/ShellCommands.md#cd)
 
 ```sh
-ECHO Message
+CD ../bright-bluefins/main
 ```
 
 [EDIT](/docs/ShellCommands.md#edit)
 
 ```sh
-EDIT filename.txt
+EDIT ./README.md
 ```
 
 [IMGVIEW](/docs/ShellCommands.md#imgview)
 
 ```sh
-IMGVIEW image.png
+IMGVIEW ./docs/images/logo.png
 ```
 
 [TREE](/docs/ShellCommands.md#tree)
 
 ```sh
-TREE Path
+TREE ./main
 ```
 
 [PING](/docs/ShellCommands.md#ping)
 ```sh
-PING IP/domain
+PING 1.1.1.1
 ```
 
 _For the complete and detailed list of commands and features, please refer to the [Documentation](/docs/ShellCommands.md)_
