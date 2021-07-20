@@ -25,7 +25,7 @@ The shell supports a wide range of commands. These commands are very similar to 
 
 ---
 
-<br><br>
+<br>
 
 ### ECHO
 
@@ -159,7 +159,7 @@ PATH Path
 
 ### RD
 
-**Alias: RMDIR**
+> Alias: RMDIR
 
 Removes an empty directory, shows error message if not empty.
 
@@ -211,7 +211,7 @@ FIND Path
 
 ### CLS
 
-**Alias: CLEAR**
+> Alias: CLEAR
 
 Clears the whole screen.
 
@@ -223,7 +223,7 @@ CLS
 
 ### EXIT
 
-**Alias: QUIT**
+> Alias: QUIT
 
 Exits the shell.
 
