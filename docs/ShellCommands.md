@@ -1,5 +1,7 @@
 # Shell Commands
 
+The shell supports a wide range of commands. These commands are very similar to the original DOS. The list of commands are given below:
+
 1. [ECHO](#echo)
 1. [EDIT](#edit)
 1. [IMGVIEW](#imgview)
@@ -23,207 +25,207 @@
 
 ---
 
-<br><br>
+<br>
 
-## ECHO
+### ECHO
 
-### Reapeats messages passed to command
+Reapeats the message passed to command.
 
 ```sh
 ECHO Message
 ```
 
-<br><br>
+<br>
 
-## EDIT
+### EDIT
 
-### Opens file given to the command in a simple text editor.
+Opens the file given to the command in the Notepad text editor.
 
 ```sh
 EDIT filename.txt
 ```
 
-<br><br>
+<br>
 
-## IMGVIEW
+### IMGVIEW
 
-### Opens image given in an ANSI Image Viewer.
+Opens the image given in the Photos image viewer in ANSI mode.
 
 ```sh
 IMGVIEW image.png
 ```
 
-<br><br>
+<br>
 
-## CD
+### CD
 
-### Changes current directory of the shell.
+Changes the current directory of the shell to the specified path.
 
 ```sh
 CD Path
 ```
 
-<br><br>
+<br>
 
-## CWD
+### CWD
 
-### Returns the current working directory of the shell.
+Returns the current working directory of the shell.
 
 ```sh
 CWD
 ```
 
-<br><br>
+<br>
 
-## Dir
+### Dir
 
-### Returns names of all files and folders in the given directory, defaults to current directory.
+Returns the names of all files and folders in the given directory, if no path is given it defaults to the current directory.
 
 ```sh
 DIR Path
 ```
 
-<br><br>
+<br>
 
-## TREE
+### TREE
 
-### Shows a visual tree of the given directory, defaults to current directory.
+Shows the files and subdirectories of the given directory as a tree structure, if no path is given it defaults to the current directory.
 
 ```sh
 TREE Path
 ```
 
-<br><br>
+<br>
 
-## DELTREE
+### DELTREE
 
-### Deletes a directory and all the subdirectories and files in it, defaults to currend directory.
+Deletes a directory and all the subdirectories and files in it, if no path is given it defaults to the current directory.
 
 ```sh
 DELTREE Path
 ```
 
-<br><br>
+<br>
 
-## DEL
+### DEL
 
-### Deletes one or more files.
+Deletes one or more files.
 
 ```sh
 DEL Path1 Path2 Path3 ...
 ```
 
-<br><br>
+<br>
 
-## TYPE
+### TYPE
 
-### Displays the contents of a file.
+Displays the contents of a file to the screen.
 
 ```sh
 TYPE Path
 ```
 
-<br><br>
+<br>
 
-## MOVE
+### MOVE
 
-### Moves a file from one directory to another directory.
-
-```sh
-ECHO Message
-```
-
-<br><br>
-
-## PING
-
-### Test and send information to another network computer or network device.
+Moves a file from one directory to another directory.
 
 ```sh
-PING IP/domain
+MOVE Old_path New_path
 ```
 
-<br><br>
+<br>
 
-## PATH
+### PING
 
-### Prints all the exe files in the given path.
+Tests if an IP address or a domain name is active or not, also provides some information about it.
 
 ```sh
-ECHO Message
+PING IP_address/domain_name
 ```
 
-<br><br>
+<br>
 
-## RD
+### PATH
 
-**Alias: RMDIR**
+Prints all the executable files (.exe) in the given path.
 
-### Removes an empty directory.
+```sh
+PATH Path
+```
+
+<br>
+
+### RD
+
+> Alias: RMDIR
+
+Removes an empty directory, shows error message if not empty.
 
 ```sh
 RD Path
 ```
 
-<br><br>
+<br>
 
-## REN
+### REN
 
-### Renames a file or directory.
+Renames a file or directory to the specified name.
 
 ```sh
 REN Path_to_file New_name
 ```
 
-<br><br>
+<br>
 
-## DATE
+### DATE
 
-### Shows the system date according to given unix date time format, defaults to %d-%m-%Y
+Shows the system date according to given unix date time format, defaults to %d-%m-%Y format if none provided.
 
 ```sh
 DATE Format_string
 ```
 
-<br><br>
+<br>
 
-## TIME
+### TIME
 
-### Shows the system time according to given unix date time format, defaults to %H:%M:%S
+Shows the system time according to given unix date time format, defaults to %H:%M:%S format if none provided.
 
 ```sh
 TIME Format_string
 ```
 
-<br><br>
+<br>
 
-## FIND
+### FIND
 
-### Searchs for text within a file.
+Searchs for text within a file.
 
 ```sh
 FIND Path
 ```
 
-<br><br>
+<br>
 
-## CLS
+### CLS
 
-**Alias: CLEAR**
+> Alias: CLEAR
 
-### Clears the screen.
+Clears the whole screen.
 
 ```sh
 CLS
 ```
 
-<bv><br>
+<bv>
 
-## EXIT
+### EXIT
 
-**alias: QUIT**
+> Alias: QUIT
 
-### Exits the shell
+Exits the shell.
 
 ```sh
 EXIT

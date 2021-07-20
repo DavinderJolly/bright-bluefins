@@ -1,40 +1,41 @@
 # Notepad
 
-## Simple Text Editor with some nice features like:
+Notepad app is the default text editor of BoxOS. It can be launched inside the shell to create/edit files quickly. It is a very basic text editor with some nice features.
 
-- ### Line numbers
-- ### Syntax Highlighting
+## Features of Notepad
+
+- Line numbers
+
+- Syntax Highlighting for various languages
 
   ![SyntaxHighlightingScreenshot](images/SyntaxHighlighting.png)
 
-- ### Date and Time display at the bottom
+- Date and Time display at the bottom left
 
   ![DateTimeScreenshot](images/DateTime.png)
 
-- ### Line and Column number displayed at the bottom right
+- Line and Column number display at the bottom right
 
   ![LineColScrenshot](images/LineCol.png)
 
-<br><br>
+<br>
 
 ## How To Use
 
----
-
-- ### Type `EDIT` in the Notepad followed by a filename to open a filename in the editor
+- Type `EDIT` in the Notepad followed by a filename to open a file in the editor
 
   ![EditCommandScreenshot](images/EDIT1.png)
 
-- ### If there's no file then just tyype `EDIT` and press **CTRL + s** to save current buffer as a file
+- To create a new file just type `EDIT` and press `CTRL + s` to save current text of the buffer as a file
 
   ![SavingScreenshot](images/EDIT2.png)
 
-- ### Press CTRL + c to open the Menu
+- Press `Ctrl + c` to open the Menu and use arrow keys to navigate around
 
-  > NOTE: New and About not implemented
+  > NOTE: New and About not implemented yet
 
   ![Menuscreenshot](images/EDIT3.png)
 
-- ### Press Ctrl + d to exit to the shell
+- Press `Ctrl + d` to exit to the shell
 
   ![ShellScreenShot](images/EDIT4.png)
