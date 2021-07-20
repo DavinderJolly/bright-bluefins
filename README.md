@@ -38,7 +38,7 @@
 ## About The Project
 
 <p align="center">
-    <img src="screenshot-url" alt="App screenshot">
+    <img src="docs/images/App.png" alt="App screenshot">
 </p> <br>
 
 A clone of a 1980's MS-DOS built with python and prompt_toolkit framework.
