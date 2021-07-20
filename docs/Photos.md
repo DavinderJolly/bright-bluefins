@@ -1,10 +1,10 @@
 # Photos
 
-Photos app the the default image viewer of the BoxOS. It can open any type of image and display it in the terminal in ANSI mode. In this mode the pixels of the image are converted to an ANSI character with equivalent 24-bit color.       
+Photos app the the default image viewer of the BoxOS. It can open any type of image and display it in the terminal in ANSI mode. In this mode the pixels of the image are converted to an ANSI character with equivalent 24-bit color.  
 
 ![PhotosScreenshot](images/Photos.png)
 
-> Note: This app can also show the image in ASCII mode. But this feature is not very functional yet. 
+> Note: This app can also show the image in ASCII mode. But this feature is not very functional yet.
 
 <br>
 
