@@ -159,7 +159,7 @@ To get a local copy up and running of this shell, follow these simple steps.
    ```sh
    pipenv run start
    ```
-   
+
 <!-- USAGE EXAMPLES -->
 
 ## Usage
